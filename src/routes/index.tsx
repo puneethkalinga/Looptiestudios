@@ -22,7 +22,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 
-const LOGO_SRC = "/images/logo/transparent-brand-logo.png";
+const LOGO_SRC = "/images/logo/looptie-logo.jpg";
 const HERO_SRC = "/images/hero/hero-flowers.jpg";
 
 export const Route = createFileRoute("/")({
@@ -174,7 +174,7 @@ function Home() {
               <img
                 src={LOGO_SRC}
                 alt="Loop Tie Studio"
-                className="h-16 w-auto object-contain sm:h-18 md:h-20 filter drop-shadow-md"
+                className="h-16 w-auto object-contain rounded-full filter drop-shadow-md"
               />
             </Link>
 
@@ -200,7 +200,7 @@ function Home() {
             <img
               src={LOGO_SRC}
               alt="Loop Tie Studio Logo"
-              className="h-40 w-auto md:h-48 object-contain filter drop-shadow-2xl"
+              className="h-40 w-auto md:h-48 object-contain rounded-[32px] filter drop-shadow-2xl"
             />
           </div>
           <div className="inline-flex w-fit items-center gap-2 rounded-full border border-cream/20 bg-cream/5 px-4 py-1.5 text-[11px] uppercase tracking-widest backdrop-blur-xl">
@@ -679,7 +679,7 @@ function Home() {
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 md:grid-cols-4">
           <div>
             <div className="flex items-center">
-              <img src={LOGO_SRC} alt="Loop Tie Studio" className="h-16 w-auto object-contain filter drop-shadow-sm" />
+              <img src={LOGO_SRC} alt="Loop Tie Studio" className="h-16 w-auto object-contain rounded-2xl filter drop-shadow-sm" />
             </div>
             <p className="mt-4 text-sm text-cream/60">A father-daughter atelier &mdash; slow, handmade, and quietly curated.</p>
           </div>
