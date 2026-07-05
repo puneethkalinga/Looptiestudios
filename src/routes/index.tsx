@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState, useEffect } from "react";
 import {
   Instagram,
   Sparkles,
@@ -93,6 +94,21 @@ const GALLERY = [
 ];
 
 function Home() {
+  const [showWhatsapp, setShowWhatsapp] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 200) {
+        setShowWhatsapp(true);
+      } else {
+        setShowWhatsapp(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <div className="min-h-screen bg-forest font-sans text-cream">
       {/* Full-bleed hero */}
@@ -591,6 +607,20 @@ function Home() {
           &copy; {new Date().getFullYear()} Loop Ties Studio &middot; Handmade in India
         </div>
       </footer>
+      {/* Floating WhatsApp Button */}
+      <a
+        href="https://wa.me/917842361772"
+        target="_blank"
+        rel="noopener noreferrer"
+        className={`fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg transition-all duration-300 hover:scale-110 active:scale-95 ${
+          showWhatsapp ? "opacity-100 visible" : "opacity-0 invisible"
+        }`}
+        aria-label="Chat on WhatsApp"
+      >
+        <svg className="h-8 w-8 fill-current" viewBox="0 0 24 24">
+          <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.588 1.45 5.621 1.451 5.536 0 10.04-4.507 10.04-10.043.002-2.661-1.03-5.166-2.906-7.042C17.527 1.68 15.034.65 12.38.65c-5.543 0-10.046 4.507-10.046 10.046-.002 2.074.542 4.1 1.572 5.864l-.998 3.648 3.738-.98zm11.387-5.464c-.307-.154-1.817-.897-2.097-.999-.28-.102-.484-.154-.686.154-.203.308-.785.999-.962 1.205-.178.205-.355.231-.662.077-.307-.154-1.3-.48-2.476-1.53-1.155-1.03-1.93-2.302-2.158-2.61-.227-.308-.024-.475.129-.628.138-.137.307-.359.461-.539.154-.18.205-.308.307-.513.102-.205.051-.385-.026-.539-.077-.154-.686-1.654-.94-2.267-.247-.595-.503-.513-.686-.523-.178-.008-.382-.01-.587-.01s-.538.077-.82.384c-.282.309-1.077 1.051-1.077 2.564 0 1.513 1.102 2.974 1.256 3.179.154.205 2.167 3.31 5.248 4.64.733.317 1.307.505 1.75.646.737.234 1.408.201 1.94.122.592-.088 1.817-.743 2.072-1.461.254-.718.254-1.333.178-1.461-.077-.128-.282-.205-.589-.359z" />
+        </svg>
+      </a>
     </div>
   );
 }
