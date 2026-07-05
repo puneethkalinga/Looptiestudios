@@ -22,7 +22,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 
-const LOGO_SRC = "/images/logo/circular-badge.png";
+const LOGO_SRC = "/images/logo/transparent-brand-logo.png";
 const HERO_SRC = "/images/hero/hero-flowers.jpg";
 
 export const Route = createFileRoute("/")({
@@ -170,15 +170,12 @@ function Home() {
         {/* Glass nav */}
         <nav className="relative z-10">
           <div className="mx-auto mt-6 flex h-24 max-w-6xl items-center justify-between rounded-full border border-cream/15 bg-cream/10 py-2 pl-5 pr-6 backdrop-blur-xl">
-            <Link to="/" className="flex shrink-0 items-center gap-3">
+            <Link to="/" className="flex shrink-0 items-center">
               <img
                 src={LOGO_SRC}
                 alt="Loop Tie Studio"
-                className="h-12 w-auto object-contain sm:h-14 md:h-16 filter drop-shadow-md"
+                className="h-16 w-auto object-contain sm:h-18 md:h-20 filter drop-shadow-md"
               />
-              <span className="font-serif text-sm tracking-widest text-cream uppercase font-semibold sm:text-base md:text-lg">
-                Loop Tie Studio
-              </span>
             </Link>
 
             <div className="hidden gap-8 text-xs uppercase tracking-widest text-cream/80 md:flex">
@@ -201,9 +198,9 @@ function Home() {
         <div className="relative z-10 mx-auto flex min-h-[calc(100vh-6rem)] max-w-6xl flex-col justify-center px-6 py-12">
           <div className="mb-8 flex flex-col items-center md:items-start gap-4">
             <img
-              src="/images/logo/vertical-pennant.png"
+              src={LOGO_SRC}
               alt="Loop Tie Studio Logo"
-              className="h-48 w-auto md:h-56 object-contain filter drop-shadow-2xl"
+              className="h-40 w-auto md:h-48 object-contain filter drop-shadow-2xl"
             />
           </div>
           <div className="inline-flex w-fit items-center gap-2 rounded-full border border-cream/20 bg-cream/5 px-4 py-1.5 text-[11px] uppercase tracking-widest backdrop-blur-xl">
@@ -681,9 +678,8 @@ function Home() {
       <footer className="bg-forest px-6 py-16 text-cream/80">
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 md:grid-cols-4">
           <div>
-            <div className="flex items-center gap-3">
-              <img src={LOGO_SRC} alt="Loop Tie Studio" className="h-12 w-auto object-contain filter drop-shadow-sm" />
-              <span className="font-serif text-xl text-cream">Loop Ties Studio</span>
+            <div className="flex items-center">
+              <img src={LOGO_SRC} alt="Loop Tie Studio" className="h-16 w-auto object-contain filter drop-shadow-sm" />
             </div>
             <p className="mt-4 text-sm text-cream/60">A father-daughter atelier &mdash; slow, handmade, and quietly curated.</p>
           </div>
