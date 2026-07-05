@@ -22,7 +22,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 
-const LOGO_SRC = "/images/logo/looptie-logo.jpg";
+const LOGO_SRC = "/images/logo/looptie-logo.png";
 const HERO_SRC = "/images/hero/hero-flowers.jpg";
 
 export const Route = createFileRoute("/")({
@@ -171,13 +171,11 @@ function Home() {
         <nav className="relative z-10">
           <div className="mx-auto mt-6 flex h-24 max-w-6xl items-center justify-between rounded-full border border-cream/15 bg-cream/10 py-2 pl-5 pr-6 backdrop-blur-xl">
             <Link to="/" className="flex shrink-0 items-center gap-3">
-              <div className="bg-cream p-1.5 rounded-2xl border-2 border-cream/20 shadow-md shadow-forest/40">
-                <img
-                  src={LOGO_SRC}
-                  alt="Loop Tie Studio"
-                  className="h-12 w-auto object-contain rounded-xl sm:h-14 md:h-16"
-                />
-              </div>
+              <img
+                src={LOGO_SRC}
+                alt="Loop Tie Studio"
+                className="h-12 w-auto object-contain sm:h-14 md:h-16 filter drop-shadow-md"
+              />
               <span className="font-serif text-sm tracking-widest text-cream uppercase font-semibold sm:text-base md:text-lg">
                 Loop Tie Studio
               </span>
@@ -202,14 +200,11 @@ function Home() {
         {/* Hero content */}
         <div className="relative z-10 mx-auto flex min-h-[calc(100vh-6rem)] max-w-6xl flex-col justify-center px-6 py-12">
           <div className="mb-8 flex flex-col items-center md:items-start gap-4">
-            <div className="relative bg-cream p-3 rounded-[32px] border-4 border-cream/20 shadow-2xl">
-              <img
-                src={LOGO_SRC}
-                alt="Loop Tie Studio Logo"
-                className="h-28 w-auto md:h-36 object-contain rounded-2xl"
-              />
-              <div className="absolute inset-0 rounded-[32px] border border-cream/10 pointer-events-none" />
-            </div>
+            <img
+              src={LOGO_SRC}
+              alt="Loop Tie Studio Logo"
+              className="h-28 w-auto md:h-36 object-contain filter drop-shadow-2xl"
+            />
             <div className="text-center md:text-left">
               <h2 className="font-serif text-2xl tracking-[0.2em] text-cream uppercase md:text-3xl font-semibold">
                 Loop Tie Studio
@@ -695,9 +690,7 @@ function Home() {
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 md:grid-cols-4">
           <div>
             <div className="flex items-center gap-3">
-              <div className="bg-cream p-1 rounded-xl border border-cream/20 shadow-sm">
-                <img src={LOGO_SRC} alt="Loop Tie Studio" className="h-12 w-auto object-contain rounded-lg" />
-              </div>
+              <img src={LOGO_SRC} alt="Loop Tie Studio" className="h-12 w-auto object-contain filter drop-shadow-sm" />
               <span className="font-serif text-xl text-cream">Loop Ties Studio</span>
             </div>
             <p className="mt-4 text-sm text-cream/60">A father-daughter atelier &mdash; slow, handmade, and quietly curated.</p>
