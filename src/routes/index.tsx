@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
 import {
   Instagram,
   Sparkles,
@@ -17,6 +18,8 @@ import {
   Leaf,
   HandHeart,
   Camera,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 
 const LOGO_SRC = "/images/logo/looptie-logo.jpg";
@@ -28,7 +31,7 @@ export const Route = createFileRoute("/")({
 
 const NAV = [
   { label: "Story", href: "#story" },
-  { label: "Collections", href: "#collections" },
+  { label: "Our Products", href: "#products" },
   { label: "About", href: "#about" },
   { label: "Gallery", href: "#gallery" },
   { label: "Contact", href: "#contact" },
@@ -80,6 +83,56 @@ const COLLECTIONS: { name: string; label: string; desc: string; tint: string; im
   { name: "Kitty Fingertip Charm", label: "Amigurumi", desc: "A tiny fingertip-sized cream kitten with a red bow." },
 ].map((p, i) => ({ ...p, tint: TINTS[i % TINTS.length], img: `/images/products/product-${String(i + 1).padStart(2, "0")}.jpg` }));
 
+const PAINTINGS: { name: string; label: string; desc: string; tint: string; img: string; category: string }[] = [
+  {
+    name: "Meadow Whispers",
+    label: "Paintings",
+    desc: "A textured canvas painting of golden summer wildflowers, set in a natural wood frame.",
+    tint: "from-burgundy/40 to-forest",
+    img: "/images/gallery/paintings.jpg",
+    category: "paintings"
+  },
+  {
+    name: "Forest Echoes",
+    label: "Paintings",
+    desc: "Acrylic on deep canvas, capturing sunbeams filtering through dense pine treetops.",
+    tint: "from-forest to-burgundy/30",
+    img: "/images/gallery/paintings.jpg",
+    category: "paintings"
+  },
+  {
+    name: "Studio Botanicals",
+    label: "Paintings",
+    desc: "A watercolor and ink study of pressed flowers and workspace details.",
+    tint: "from-burgundy/30 to-forest",
+    img: "/images/gallery/paintings.jpg",
+    category: "paintings"
+  }
+];
+
+const getProductCategory = (label: string, name: string): string => {
+  if (label === "Amigurumi" || label === "Crochet Toys") return "amigurumi";
+  if (label === "Keychain") return "keychains";
+  if (label === "Crochet Flowers") return "flowers";
+  if (label === "Handmade D\u00e9cor") return "decor";
+  if (label === "Scrunchies" || label === "Accessories") {
+    const wearables = ["Daisy Scrunchie, Sky", "Lavender Daisy Band", "Yellow Bow Clip", "Lavender Bow Hair Piece", "Bow Trio, Autumn"];
+    if (wearables.includes(name)) return "wearables";
+    return "accessories";
+  }
+  const practical = ["Frog Pals Tray", "Frog Trio Tray", "Frog Basket, Wide", "Berry Basket"];
+  if (practical.includes(name)) return "practical";
+  return "amigurumi";
+};
+
+const ALL_PRODUCTS = [
+  ...COLLECTIONS.map((p) => ({
+    ...p,
+    category: getProductCategory(p.label, p.name)
+  })),
+  ...PAINTINGS
+];
+
 
 
 
@@ -92,7 +145,21 @@ const GALLERY = [
   { label: "The Atelier", tint: "from-forest to-burgundy/25", tall: false, img: "/images/gallery/atelier.jpg" },
 ];
 
+const CATEGORIES = [
+  { id: "all", label: "All Products" },
+  { id: "amigurumi", label: "Amigurumi and toys" },
+  { id: "keychains", label: "Keychains" },
+  { id: "flowers", label: "Crochet flowers" },
+  { id: "decor", label: "Home décor" },
+  { id: "accessories", label: "Accessories" },
+  { id: "wearables", label: "Wearables" },
+  { id: "practical", label: "Practical & Household Items" },
+  { id: "paintings", label: "Paintings" }
+];
+
 function Home() {
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [currentPage, setCurrentPage] = useState(1);
   return (
     <div className="min-h-screen bg-forest font-sans text-cream">
       {/* Full-bleed hero */}
@@ -106,8 +173,8 @@ function Home() {
             <Link to="/" className="flex shrink-0 items-center">
               <img
                 src={LOGO_SRC}
-                alt="LoopTieStudio"
-                className="h-14 w-auto object-contain rounded-[22px] shadow-md shadow-forest/40 sm:h-16 md:h-18"
+                alt="Loop Tie Studio"
+                className="h-16 w-16 md:h-20 md:w-20 rounded-full border-2 border-cream/25 shadow-lg shadow-forest/50 object-cover"
               />
             </Link>
 
@@ -128,9 +195,27 @@ function Home() {
         </nav>
 
         {/* Hero content */}
-        <div className="relative z-10 mx-auto flex min-h-[calc(100vh-6rem)] max-w-6xl flex-col justify-center px-6">
+        <div className="relative z-10 mx-auto flex min-h-[calc(100vh-6rem)] max-w-6xl flex-col justify-center px-6 py-12">
+          <div className="mb-8 flex flex-col items-center md:items-start gap-4">
+            <div className="relative">
+              <img
+                src={LOGO_SRC}
+                alt="Loop Tie Studio Logo"
+                className="h-28 w-28 md:h-36 md:w-36 rounded-full border-4 border-cream/25 shadow-2xl object-cover"
+              />
+              <div className="absolute inset-0 rounded-full border border-cream/10 pointer-events-none" />
+            </div>
+            <div className="text-center md:text-left">
+              <h2 className="font-serif text-2xl tracking-[0.2em] text-cream uppercase md:text-3xl font-semibold">
+                Loop Tie Studio
+              </h2>
+              <p className="text-[10px] uppercase tracking-[0.3em] text-[#F4E0A5] mt-1 font-medium">
+                Handmade Crochet &amp; Art
+              </p>
+            </div>
+          </div>
           <div className="inline-flex w-fit items-center gap-2 rounded-full border border-cream/20 bg-cream/5 px-4 py-1.5 text-[11px] uppercase tracking-widest backdrop-blur-xl">
-            <Sparkles className="size-3" /> A father-daughter atelier · Est. India
+            <Sparkles className="size-3 text-[#F4E0A5]" /> A father-daughter atelier · Est. India
           </div>
           <h1 className="mt-8 max-w-4xl font-serif text-6xl leading-[0.95] tracking-tight md:text-8xl">
             Handcrafted<br />
@@ -142,7 +227,7 @@ function Home() {
             something one-of-a-kind.
           </p>
           <div className="mt-12 flex flex-wrap gap-4">
-            <a href="#collections" className="rounded-full bg-burgundy px-10 py-4 text-sm font-medium uppercase tracking-widest text-cream shadow-2xl shadow-burgundy/40 transition-transform hover:scale-105">
+            <a href="#products" className="rounded-full bg-burgundy px-10 py-4 text-sm font-medium uppercase tracking-widest text-cream shadow-2xl shadow-burgundy/40 transition-transform hover:scale-105">
               View Collection
             </a>
             <a href="#contact" className="rounded-full border border-cream/30 bg-cream/5 px-10 py-4 text-sm font-medium uppercase tracking-widest backdrop-blur-xl hover:bg-cream/10">
@@ -155,11 +240,11 @@ function Home() {
         <div className="absolute bottom-10 right-28 z-10 hidden rounded-3xl border border-cream/20 bg-cream/10 p-6 backdrop-blur-2xl md:block">
           <div className="flex gap-6 text-sm">
             <div className="flex items-center gap-3">
-              <HandHeart className="size-5 text-burgundy" strokeWidth={1.75} />
+              <HandHeart className="size-5 text-[#F4E0A5]" strokeWidth={2} />
               <div className="font-serif text-base leading-tight">100% Handmade<br /><span className="text-xs uppercase tracking-widest text-cream/60">with care</span></div>
             </div>
             <div className="flex items-center gap-3">
-              <Leaf className="size-5 text-burgundy" strokeWidth={1.75} />
+              <Leaf className="size-5 text-[#F4E0A5]" strokeWidth={2} />
               <div className="font-serif text-base leading-tight">Proudly Made<br /><span className="text-xs uppercase tracking-widest text-cream/60">in India</span></div>
             </div>
           </div>
@@ -177,8 +262,8 @@ function Home() {
               { icon: Leaf, title: "Proudly Handmade in India", body: "Rooted in our home studio, shipped worldwide with care." },
             ].map(({ icon: Icon, title, body }) => (
               <div key={title} className="group rounded-3xl border border-cream/15 bg-cream/5 p-6 backdrop-blur-xl transition-transform hover:-translate-y-1">
-                <div className="flex size-12 items-center justify-center rounded-2xl border border-cream/15 bg-cream/5">
-                  <Icon className="size-5 text-burgundy" strokeWidth={1.75} />
+                <div className="flex size-12 items-center justify-center rounded-2xl border border-cream/20 bg-cream/10">
+                  <Icon className="size-5 text-[#F4E0A5]" strokeWidth={2.25} />
                 </div>
                 <h3 className="mt-5 font-serif text-lg leading-snug">{title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-cream/70">{body}</p>
@@ -272,7 +357,7 @@ function Home() {
 
           <div className="mt-16 grid gap-6 md:grid-cols-3">
             <div className="rounded-3xl border border-cream/15 bg-cream/5 p-8 backdrop-blur-xl transition-transform hover:-translate-y-1">
-              <Scissors className="size-6 text-burgundy" strokeWidth={1.75} />
+              <Scissors className="size-6 text-[#F4E0A5]" strokeWidth={2.25} />
               <h3 className="mt-6 font-serif text-2xl">The Creative</h3>
               <p className="mt-4 text-sm leading-relaxed text-cream/75">
                 My daughter designs and hand-crochets every product in our collection — amigurumi, accessories,
@@ -281,7 +366,7 @@ function Home() {
               </p>
             </div>
             <div className="rounded-3xl border border-cream/15 bg-cream/5 p-8 backdrop-blur-xl transition-transform hover:-translate-y-1">
-              <Briefcase className="size-6 text-burgundy" strokeWidth={1.75} />
+              <Briefcase className="size-6 text-[#F4E0A5]" strokeWidth={2.25} />
               <h3 className="mt-6 font-serif text-2xl">The Operator</h3>
               <p className="mt-4 text-sm leading-relaxed text-cream/75">
                 Dad manages everything behind the scenes — pricing, sourcing materials, order fulfillment, and
@@ -290,7 +375,7 @@ function Home() {
               </p>
             </div>
             <div className="rounded-3xl border border-cream/15 bg-cream/5 p-8 backdrop-blur-xl transition-transform hover:-translate-y-1">
-              <Palette className="size-6 text-burgundy" strokeWidth={1.75} />
+              <Palette className="size-6 text-[#F4E0A5]" strokeWidth={2.25} />
               <h3 className="mt-6 font-serif text-2xl">Growing Beyond Crochet</h3>
               <p className="mt-4 text-sm leading-relaxed text-cream/75">
                 We&apos;re building a curated platform for talented independent creators and makers who share
@@ -319,8 +404,8 @@ function Home() {
                 <div key={title} className="group relative overflow-hidden rounded-3xl border border-cream/15 bg-forest p-8 transition-all hover:border-burgundy/40">
                   <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-burgundy/10 blur-2xl transition-opacity group-hover:opacity-100" />
                   <div className="relative">
-                    <div className="flex size-12 items-center justify-center rounded-2xl border border-cream/15 bg-cream/5">
-                      <Icon className="size-5 text-burgundy" strokeWidth={1.75} />
+                    <div className="flex size-12 items-center justify-center rounded-2xl border border-cream/20 bg-cream/10">
+                      <Icon className="size-5 text-[#F4E0A5]" strokeWidth={2.25} />
                     </div>
                     <h4 className="mt-6 font-serif text-xl leading-snug">{title}</h4>
                     <p className="mt-4 text-sm leading-relaxed text-cream/70">{body}</p>
@@ -331,8 +416,8 @@ function Home() {
           </div>
 
           <div className="mt-24 overflow-hidden rounded-[2rem] border border-cream/15 bg-gradient-to-br from-burgundy/25 via-forest to-forest p-10 md:p-16">
-            <div className="flex items-center gap-3 text-[11px] uppercase tracking-widest text-burgundy">
-              <MapPin className="size-3.5" strokeWidth={2} />
+            <div className="flex items-center gap-3 text-[11px] uppercase tracking-widest text-[#F4E0A5] font-semibold">
+              <MapPin className="size-4 text-[#F4E0A5]" strokeWidth={2.5} />
               The Studio
             </div>
             <p className="mt-6 max-w-3xl font-serif text-3xl leading-snug md:text-4xl">
@@ -346,20 +431,20 @@ function Home() {
         </div>
       </section>
 
-      {/* Collections (portfolio, not shop) */}
-      <section id="collections" className="relative border-t border-cream/10 px-6 py-28 md:py-36">
+      {/* Our Products */}
+      <section id="products" className="relative border-t border-cream/10 px-6 py-28 md:py-36">
         <div className="mx-auto max-w-6xl">
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div className="max-w-2xl">
-              <div className="flex items-center gap-3 text-[11px] uppercase tracking-widest text-burgundy">
-                <span className="h-px w-8 bg-burgundy/60" />
-                Collections
+              <div className="flex items-center gap-3 text-[11px] uppercase tracking-widest text-[#F4E0A5] font-semibold">
+                <span className="h-px w-8 bg-[#F4E0A5]/60" />
+                Our Products
               </div>
               <h2 className="mt-6 font-serif text-5xl leading-[1.05] tracking-tight md:text-6xl">
                 A portfolio of pieces, <span className="italic text-cream/70">not a storefront.</span>
               </h2>
               <p className="mt-6 text-cream/70">
-                Browse the work — each piece is one of a kind. For availability, commissions, or a custom order,
+                Browse our handmade crochet collections and canvas paintings. For availability, commissions, or a custom order,
                 message us on WhatsApp or Instagram.
               </p>
             </div>
@@ -368,33 +453,111 @@ function Home() {
             </a>
           </div>
 
-          <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {COLLECTIONS.map((c) => (
-              <div key={c.name} className="group relative overflow-hidden rounded-3xl border border-cream/15 bg-cream/5 transition-transform duration-500 hover:-translate-y-1">
-                <div className={`relative aspect-[4/5] w-full overflow-hidden bg-gradient-to-br ${c.tint}`}>
-                  <img
-                    src={c.img}
-                    alt={c.name}
-                    loading="lazy"
-                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-forest/85 via-forest/25 to-transparent" />
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(128,0,32,0.35),transparent_55%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                  <div className="absolute left-5 top-5 rounded-full border border-cream/25 bg-forest/50 px-3 py-1 text-[10px] uppercase tracking-widest text-cream/85 backdrop-blur">
-                    {c.label}
-                  </div>
-                  <Flower2 className="absolute bottom-5 right-5 size-8 text-cream/60 transition-transform duration-500 group-hover:rotate-12" strokeWidth={1.25} />
-                </div>
-                <div className="p-6">
-                  <h3 className="font-serif text-xl leading-snug">{c.name}</h3>
-                  <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-cream/70">{c.desc}</p>
-                  <a href="#contact" className="mt-5 inline-flex items-center gap-1.5 text-[11px] uppercase tracking-widest text-burgundy transition group-hover:gap-2.5">
-                    View Collection <ArrowUpRight className="size-3.5" />
-                  </a>
-                </div>
-              </div>
-            ))}
+          {/* Category Tabs Menu */}
+          <div className="mt-12 flex flex-col gap-4">
+            <div className="text-[10px] uppercase tracking-[0.2em] text-cream/50 font-medium md:text-center">
+              Filter by Category
+            </div>
+            <div className="flex gap-2 overflow-x-auto pb-4 scrollbar-none snap-x md:flex-wrap md:justify-center">
+              {CATEGORIES.map((cat) => {
+                const isActive = selectedCategory === cat.id;
+                return (
+                  <button
+                    key={cat.id}
+                    onClick={() => {
+                      setSelectedCategory(cat.id);
+                      setCurrentPage(1);
+                    }}
+                    className={`shrink-0 rounded-full px-5 py-2.5 text-xs font-medium uppercase tracking-wider transition-all cursor-pointer ${
+                      isActive
+                        ? "bg-burgundy text-cream shadow-lg shadow-burgundy/30"
+                        : "bg-cream/5 border border-cream/10 text-cream/80 hover:bg-cream/10"
+                    }`}
+                  >
+                    {cat.label}
+                  </button>
+                );
+              })}
+            </div>
           </div>
+
+          {/* Paginated Product Grid */}
+          {(() => {
+            const filtered = ALL_PRODUCTS.filter((p) => {
+              if (selectedCategory === "all") return true;
+              return p.category === selectedCategory;
+            });
+
+            const ITEMS_PER_PAGE = 8;
+            const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
+            const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+            const paginated = filtered.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
+            if (filtered.length === 0) {
+              return (
+                <div className="mt-16 text-center py-12 rounded-3xl border border-cream/10 bg-cream/5">
+                  <p className="text-cream/60 italic">No products found in this category.</p>
+                </div>
+              );
+            }
+
+            return (
+              <>
+                <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                  {paginated.map((c) => (
+                    <div key={c.name} className="group relative overflow-hidden rounded-3xl border border-cream/15 bg-cream/5 transition-transform duration-500 hover:-translate-y-1">
+                      <div className={`relative aspect-[4/5] w-full overflow-hidden bg-gradient-to-br ${c.tint}`}>
+                        <img
+                          src={c.img}
+                          alt={c.name}
+                          loading="lazy"
+                          className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-forest/85 via-forest/25 to-transparent" />
+                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(128,0,32,0.35),transparent_55%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                        <div className="absolute left-5 top-5 rounded-full border border-cream/25 bg-forest/50 px-3 py-1 text-[10px] uppercase tracking-widest text-cream/85 backdrop-blur">
+                          {c.label}
+                        </div>
+                        <Flower2 className="absolute bottom-5 right-5 size-8 text-cream/60 transition-transform duration-500 group-hover:rotate-12" strokeWidth={1.25} />
+                      </div>
+                      <div className="p-6">
+                        <h3 className="font-serif text-xl leading-snug">{c.name}</h3>
+                        <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-cream/70">{c.desc}</p>
+                        <a href="#contact" className="mt-5 inline-flex items-center gap-1.5 text-[11px] uppercase tracking-widest text-[#F4E0A5] transition group-hover:gap-2.5 font-semibold">
+                          View Details <ArrowUpRight className="size-3.5" />
+                        </a>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Pagination Controls */}
+                {totalPages > 1 && (
+                  <div className="mt-16 flex items-center justify-center gap-4 border-t border-cream/10 pt-8">
+                    <button
+                      onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                      disabled={currentPage === 1}
+                      className="inline-flex size-10 items-center justify-center rounded-full border border-cream/15 bg-cream/5 text-cream transition hover:bg-cream/10 disabled:opacity-30 disabled:hover:bg-cream/5 cursor-pointer"
+                      aria-label="Previous Page"
+                    >
+                      <ChevronLeft className="size-5" />
+                    </button>
+                    <span className="text-xs uppercase tracking-widest text-cream/60">
+                      Page {currentPage} of {totalPages}
+                    </span>
+                    <button
+                      onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                      disabled={currentPage === totalPages}
+                      className="inline-flex size-10 items-center justify-center rounded-full border border-cream/15 bg-cream/5 text-cream transition hover:bg-cream/10 disabled:opacity-30 disabled:hover:bg-cream/5 cursor-pointer"
+                      aria-label="Next Page"
+                    >
+                      <ChevronRight className="size-5" />
+                    </button>
+                  </div>
+                )}
+              </>
+            );
+          })()}
         </div>
       </section>
 
@@ -457,8 +620,8 @@ function Home() {
 
           <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             <a href="https://wa.me/917842361772" target="_blank" rel="noopener noreferrer" className="group relative overflow-hidden rounded-3xl border border-cream/15 bg-cream/5 p-8 backdrop-blur-xl transition-all hover:-translate-y-1 hover:border-burgundy/40">
-              <div className="flex size-12 items-center justify-center rounded-2xl border border-cream/15 bg-cream/5">
-                <MessageCircle className="size-5 text-burgundy" strokeWidth={1.75} />
+              <div className="flex size-12 items-center justify-center rounded-2xl border border-cream/20 bg-cream/10">
+                <MessageCircle className="size-5 text-[#F4E0A5]" strokeWidth={2.25} />
               </div>
               <h3 className="mt-6 font-serif text-2xl">WhatsApp</h3>
               <p className="mt-3 text-sm leading-relaxed text-cream/70">
@@ -472,8 +635,8 @@ function Home() {
               </div>
             </a>
             <a href="tel:+917842361772" className="group relative overflow-hidden rounded-3xl border border-cream/15 bg-cream/5 p-8 backdrop-blur-xl transition-all hover:-translate-y-1 hover:border-burgundy/40">
-              <div className="flex size-12 items-center justify-center rounded-2xl border border-cream/15 bg-cream/5">
-                <Phone className="size-5 text-burgundy" strokeWidth={1.75} />
+              <div className="flex size-12 items-center justify-center rounded-2xl border border-cream/20 bg-cream/10">
+                <Phone className="size-5 text-[#F4E0A5]" strokeWidth={2.25} />
               </div>
               <h3 className="mt-6 font-serif text-2xl">Phone</h3>
               <p className="mt-3 text-sm leading-relaxed text-cream/70">
@@ -487,8 +650,8 @@ function Home() {
               </div>
             </a>
             <a href="https://www.instagram.com/looptiestudio?igsh=MTU5NzZkOWQ2bm94ZA==" target="_blank" rel="noopener noreferrer" className="group relative overflow-hidden rounded-3xl border border-cream/15 bg-cream/5 p-8 backdrop-blur-xl transition-all hover:-translate-y-1 hover:border-burgundy/40">
-              <div className="flex size-12 items-center justify-center rounded-2xl border border-cream/15 bg-cream/5">
-                <Instagram className="size-5 text-burgundy" strokeWidth={1.75} />
+              <div className="flex size-12 items-center justify-center rounded-2xl border border-cream/20 bg-cream/10">
+                <Instagram className="size-5 text-[#F4E0A5]" strokeWidth={2.25} />
               </div>
               <h3 className="mt-6 font-serif text-2xl">Instagram</h3>
               <p className="mt-3 text-sm leading-relaxed text-cream/70">
@@ -502,8 +665,8 @@ function Home() {
               </div>
             </a>
             <a href="mailto:looptiestudio@gmail.com" className="group relative overflow-hidden rounded-3xl border border-cream/15 bg-cream/5 p-8 backdrop-blur-xl transition-all hover:-translate-y-1 hover:border-burgundy/40">
-              <div className="flex size-12 items-center justify-center rounded-2xl border border-cream/15 bg-cream/5">
-                <Mail className="size-5 text-burgundy" strokeWidth={1.75} />
+              <div className="flex size-12 items-center justify-center rounded-2xl border border-cream/20 bg-cream/10">
+                <Mail className="size-5 text-[#F4E0A5]" strokeWidth={2.25} />
               </div>
               <h3 className="mt-6 font-serif text-2xl">Email</h3>
               <p className="mt-3 text-sm leading-relaxed text-cream/70">
