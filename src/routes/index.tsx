@@ -22,7 +22,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 
-const LOGO_SRC = "/images/logo/looptie-logo.png";
+const LOGO_SRC = "/images/logo/circular-badge.png";
 const HERO_SRC = "/images/hero/hero-flowers.jpg";
 
 export const Route = createFileRoute("/")({
@@ -201,18 +201,10 @@ function Home() {
         <div className="relative z-10 mx-auto flex min-h-[calc(100vh-6rem)] max-w-6xl flex-col justify-center px-6 py-12">
           <div className="mb-8 flex flex-col items-center md:items-start gap-4">
             <img
-              src={LOGO_SRC}
+              src="/images/logo/vertical-pennant.png"
               alt="Loop Tie Studio Logo"
-              className="h-28 w-auto md:h-36 object-contain filter drop-shadow-2xl"
+              className="h-48 w-auto md:h-56 object-contain filter drop-shadow-2xl"
             />
-            <div className="text-center md:text-left">
-              <h2 className="font-serif text-2xl tracking-[0.2em] text-cream uppercase md:text-3xl font-semibold">
-                Loop Tie Studio
-              </h2>
-              <p className="text-[10px] uppercase tracking-[0.3em] text-[#F4E0A5] mt-1 font-medium">
-                Handmade Crochet &amp; Art
-              </p>
-            </div>
           </div>
           <div className="inline-flex w-fit items-center gap-2 rounded-full border border-cream/20 bg-cream/5 px-4 py-1.5 text-[11px] uppercase tracking-widest backdrop-blur-xl">
             <Sparkles className="size-3 text-[#F4E0A5]" /> A father-daughter atelier · Est. India
