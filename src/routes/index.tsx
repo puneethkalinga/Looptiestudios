@@ -1,5 +1,4 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState, useEffect } from "react";
 import {
   Instagram,
   Sparkles,
@@ -94,21 +93,6 @@ const GALLERY = [
 ];
 
 function Home() {
-  const [showWhatsapp, setShowWhatsapp] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 200) {
-        setShowWhatsapp(true);
-      } else {
-        setShowWhatsapp(false);
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   return (
     <div className="min-h-screen bg-forest font-sans text-cream">
       {/* Full-bleed hero */}
@@ -168,7 +152,7 @@ function Home() {
         </div>
 
         {/* Floating brand highlight card */}
-        <div className="absolute bottom-10 right-10 z-10 hidden rounded-3xl border border-cream/20 bg-cream/10 p-6 backdrop-blur-2xl md:block">
+        <div className="absolute bottom-10 right-28 z-10 hidden rounded-3xl border border-cream/20 bg-cream/10 p-6 backdrop-blur-2xl md:block">
           <div className="flex gap-6 text-sm">
             <div className="flex items-center gap-3">
               <HandHeart className="size-5 text-burgundy" strokeWidth={1.75} />
@@ -612,9 +596,7 @@ function Home() {
         href="https://wa.me/917842361772"
         target="_blank"
         rel="noopener noreferrer"
-        className={`fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg transition-all duration-300 hover:scale-110 active:scale-95 ${
-          showWhatsapp ? "opacity-100 visible" : "opacity-0 invisible"
-        }`}
+        className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg transition-all duration-300 hover:scale-110 active:scale-95"
         aria-label="Chat on WhatsApp"
       >
         <svg className="h-8 w-8 fill-current" viewBox="0 0 24 24">
