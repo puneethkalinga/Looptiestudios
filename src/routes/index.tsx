@@ -202,7 +202,7 @@ function Home() {
         </nav>
 
         {/* Hero content */}
-        <div className="relative z-10 mx-auto flex min-h-[calc(100vh-6rem)] max-w-6xl flex-col justify-center px-6 py-12 pt-32 md:pt-12">
+        <div className="relative z-10 mx-auto flex min-h-[calc(100vh-6rem)] max-w-6xl flex-col justify-center px-6 py-12 pt-40 md:pt-44">
           <div className="mb-8 flex flex-col items-center md:items-start gap-4">
             <img
               src={LOGO_SRC}
