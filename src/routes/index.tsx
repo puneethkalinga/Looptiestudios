@@ -19,6 +19,8 @@ import {
   Camera,
   Menu,
   X,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -114,6 +116,8 @@ function Home() {
   const [modalSubcategory, setModalSubcategory] = useState<string>("Keychains");
   const [inlineCategory, setInlineCategory] = useState<"Crochets" | "Paintings">("Crochets");
   const [inlineSubcategory, setInlineSubcategory] = useState<string>("Keychains");
+  const [lightboxItems, setLightboxItems] = useState<typeof COLLECTIONS>([]);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   return (
     <div className="min-h-screen bg-forest font-sans text-cream">
       {/* Full-bleed hero */}
@@ -487,7 +491,13 @@ function Home() {
                     key={c.name}
                     className="group relative overflow-hidden rounded-3xl border border-cream/15 bg-cream/5 transition-transform duration-500 hover:-translate-y-1"
                   >
-                    <div className={`relative aspect-[4/5] w-full overflow-hidden bg-gradient-to-br ${c.tint}`}>
+                    <div 
+                      className={`relative aspect-[4/5] w-full overflow-hidden bg-gradient-to-br ${c.tint} cursor-pointer`}
+                      onClick={() => {
+                        setLightboxItems(filteredItems);
+                        setLightboxIndex(filteredItems.findIndex(item => item.name === c.name));
+                      }}
+                    >
                       <img
                         src={c.img}
                         alt={c.name}
@@ -807,7 +817,13 @@ function Home() {
                         key={c.name}
                         className="group relative overflow-hidden rounded-2xl border border-cream/10 bg-cream/5 transition-all duration-300 hover:border-cream/20"
                       >
-                        <div className={`relative aspect-[4/5] w-full overflow-hidden bg-gradient-to-br ${c.tint}`}>
+                        <div 
+                          className={`relative aspect-[4/5] w-full overflow-hidden bg-gradient-to-br ${c.tint} cursor-pointer`}
+                          onClick={() => {
+                            setLightboxItems(filteredItems);
+                            setLightboxIndex(filteredItems.findIndex(item => item.name === c.name));
+                          }}
+                        >
                           <img
                             src={c.img}
                             alt={c.name}
@@ -833,6 +849,83 @@ function Home() {
                   </div>
                 );
               })()}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Lightbox Slideshow Overlay */}
+      {lightboxIndex !== null && lightboxItems[lightboxIndex] && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 animate-in fade-in duration-200">
+          {/* Backdrop overlay */}
+          <div 
+            className="absolute inset-0 bg-forest/90 backdrop-blur-lg cursor-pointer"
+            onClick={() => setLightboxIndex(null)}
+          />
+
+          {/* Close button */}
+          <button 
+            onClick={() => setLightboxIndex(null)}
+            className="absolute right-6 top-6 z-50 flex size-12 items-center justify-center rounded-full border border-cream/25 bg-cream/5 text-cream/70 hover:bg-cream/10 hover:text-cream transition-all"
+            aria-label="Close preview"
+          >
+            <X className="size-6" />
+          </button>
+
+          {/* Previous button */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setLightboxIndex((prev) => 
+                prev !== null ? (prev === 0 ? lightboxItems.length - 1 : prev - 1) : null
+              );
+            }}
+            className="absolute left-6 z-50 flex size-12 items-center justify-center rounded-full border border-cream/25 bg-cream/5 text-cream/70 hover:bg-cream/10 hover:text-cream transition-all md:left-10"
+            aria-label="Previous product"
+          >
+            <ChevronLeft className="size-6" />
+          </button>
+
+          {/* Next button */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setLightboxIndex((prev) => 
+                prev !== null ? (prev === lightboxItems.length - 1 ? 0 : prev + 1) : null
+              );
+            }}
+            className="absolute right-6 z-50 flex size-12 items-center justify-center rounded-full border border-cream/25 bg-cream/5 text-cream/70 hover:bg-cream/10 hover:text-cream transition-all md:right-10"
+            aria-label="Next product"
+          >
+            <ChevronRight className="size-6" />
+          </button>
+
+          {/* Centered Lightbox Card with animations */}
+          <div className="relative z-10 flex w-full max-w-3xl flex-col items-center justify-center p-4 animate-in fade-in zoom-in-95 duration-300">
+            <div className={`relative aspect-[4/5] w-full max-w-md overflow-hidden rounded-[2.5rem] border border-cream/15 bg-gradient-to-br ${lightboxItems[lightboxIndex].tint} shadow-2xl`}>
+              <img
+                src={lightboxItems[lightboxIndex].img}
+                alt={lightboxItems[lightboxIndex].name}
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-forest/90 via-transparent to-transparent" />
+            </div>
+
+            {/* Product Details below the image */}
+            <div className="mt-6 text-center max-w-md">
+              <span className="rounded-full border border-cream/25 bg-forest/50 px-3 py-1 text-[10px] uppercase tracking-widest text-[#F4E0A5] backdrop-blur">
+                {lightboxItems[lightboxIndex].subcategory}
+              </span>
+              <h3 className="mt-4 font-serif text-2xl md:text-3xl text-cream">{lightboxItems[lightboxIndex].name}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-cream/70">{lightboxItems[lightboxIndex].desc}</p>
+              <a
+                href="https://wa.me/917842361772"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-6 inline-flex items-center gap-1.5 rounded-full bg-burgundy px-6 py-2.5 text-xs font-semibold uppercase tracking-widest text-cream hover:bg-burgundy/90 transition-colors shadow-lg"
+              >
+                Enquire on WhatsApp <ArrowUpRight className="size-3.5" />
+              </a>
             </div>
           </div>
         </div>
