@@ -22,7 +22,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 
-const LOGO_SRC = "/images/logo/looptie-logo.png";
+const LOGO_SRC = "/images/logo/looptie-logo.png?v=2";
 const HERO_SRC = "/images/hero/hero-flowers.jpg";
 const WOOL_ICON_SRC = "/images/logo/wool-icon.png";
 
@@ -112,8 +112,6 @@ function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalCategory, setModalCategory] = useState<"Crochets" | "Paintings">("Crochets");
   const [modalSubcategory, setModalSubcategory] = useState<string>("Keychains");
-  const [inlineCategory, setInlineCategory] = useState<"Crochets" | "Paintings">("Crochets");
-  const [inlineSubcategory, setInlineSubcategory] = useState<string>("Keychains");
   return (
     <div className="min-h-screen bg-forest font-sans text-cream">
       {/* Full-bleed hero */}
@@ -434,86 +432,78 @@ function Home() {
             </a>
           </div>
 
-          {/* Category tabs */}
-          <div className="mt-14 flex gap-4 border-b border-cream/10 pb-4">
-            {["Crochets", "Paintings"].map((cat) => (
-              <button
-                key={cat}
-                onClick={() => {
-                  setInlineCategory(cat as any);
-                  setInlineSubcategory(cat === "Crochets" ? "Keychains" : "Paintings");
-                }}
-                className={`rounded-full px-6 py-2.5 text-xs font-semibold uppercase tracking-widest transition-all ${
-                  inlineCategory === cat
-                    ? "bg-[#F4E0A5] text-forest shadow-md"
-                    : "bg-cream/5 text-cream/80 border border-cream/10 hover:bg-cream/10"
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-
-          {/* Subcategory selectors */}
-          <div className="mt-4 flex flex-wrap gap-2.5">
-            {(inlineCategory === "Crochets"
-              ? ["Keychains", "Handloom Decor", "Scrunchies", "Accessories", "Crochet Toys"]
-              : ["Paintings"]
-            ).map((sub) => (
-              <button
-                key={sub}
-                onClick={() => setInlineSubcategory(sub)}
-                className={`rounded-full px-4 py-2 text-[10px] font-semibold uppercase tracking-widest transition-all ${
-                  inlineSubcategory === sub
-                    ? "bg-burgundy text-cream shadow-md"
-                    : "bg-cream/5 text-cream/60 border border-cream/5 hover:bg-cream/10"
-                }`}
-              >
-                {sub}
-              </button>
-            ))}
-          </div>
-
-          {/* Inline grid of products */}
           {(() => {
-            const filteredItems = COLLECTIONS.filter(
-              (item) => item.category === inlineCategory && item.subcategory === inlineSubcategory
+            const crochet = COLLECTIONS.filter((p) => p.category === "Crochets");
+            const paintings = COLLECTIONS.filter((p) => p.category === "Paintings");
+            const groups = crochet.reduce<Record<string, typeof COLLECTIONS>>((acc, p) => {
+              (acc[p.subcategory] ||= []).push(p);
+              return acc;
+            }, {});
+            const groupOrder = ["Keychains", "Handloom Decor", "Scrunchies", "Accessories", "Crochet Toys"];
+
+            const Card = ({ c }: { c: (typeof COLLECTIONS)[number] }) => (
+              <div key={c.name} className="group relative overflow-hidden rounded-3xl border border-cream/15 bg-cream/5 transition-transform duration-500 hover:-translate-y-1">
+                <div className={`relative aspect-[4/5] w-full overflow-hidden bg-gradient-to-br ${c.tint}`}>
+                  <img
+                    src={c.img}
+                    alt={c.name}
+                    loading="lazy"
+                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-forest/85 via-forest/25 to-transparent" />
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(128,0,32,0.35),transparent_55%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                  <div className="absolute left-5 top-5 rounded-full border border-cream/25 bg-forest/50 px-3 py-1 text-[10px] uppercase tracking-widest text-cream/85 backdrop-blur">
+                    {c.subcategory}
+                  </div>
+                  <Flower2 className="absolute bottom-5 right-5 size-8 text-cream/60 transition-transform duration-500 group-hover:rotate-12" strokeWidth={1.25} />
+                </div>
+                <div className="p-6">
+                  <h3 className="font-serif text-xl leading-snug">{c.name}</h3>
+                  <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-cream/70">{c.desc}</p>
+                  <a href="#contact" className="mt-5 inline-flex items-center gap-1.5 text-[11px] uppercase tracking-widest text-cream/90 transition group-hover:gap-2.5">
+                    View Collection <ArrowUpRight className="size-3.5" />
+                  </a>
+                </div>
+              </div>
             );
 
             return (
-              <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                {filteredItems.map((c) => (
-                  <div
-                    key={c.name}
-                    className="group relative overflow-hidden rounded-3xl border border-cream/15 bg-cream/5 transition-transform duration-500 hover:-translate-y-1"
-                  >
-                    <div className={`relative aspect-[4/5] w-full overflow-hidden bg-gradient-to-br ${c.tint}`}>
-                      <img
-                        src={c.img}
-                        alt={c.name}
-                        loading="lazy"
-                        className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-forest/85 via-forest/25 to-transparent" />
-                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(128,0,32,0.35),transparent_55%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                      <div className="absolute left-5 top-5 rounded-full border border-cream/25 bg-forest/50 px-3 py-1 text-[10px] uppercase tracking-widest text-cream/85 backdrop-blur">
-                        {c.subcategory}
-                      </div>
-                      <Flower2 className="absolute bottom-5 right-5 size-8 text-cream/60 transition-transform duration-500 group-hover:rotate-12" strokeWidth={1.25} />
-                    </div>
-                    <div className="p-6">
-                      <h3 className="font-serif text-xl leading-snug">{c.name}</h3>
-                      <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-cream/70">{c.desc}</p>
-                      <a
-                        href="#contact"
-                        className="mt-5 inline-flex items-center gap-1.5 text-[11px] uppercase tracking-widest text-cream/90 transition group-hover:gap-2.5"
-                      >
-                        View Collection <ArrowUpRight className="size-3.5" />
-                      </a>
-                    </div>
+              <>
+                {/* Crochet */}
+                <div className="mt-20">
+                  <div className="flex items-end justify-between gap-4 border-b border-cream/15 pb-4">
+                    <h3 className="font-serif text-3xl md:text-4xl text-[#F4E0A5]">Crochet</h3>
+                    <span className="text-[11px] uppercase tracking-widest text-cream/60">{crochet.length} pieces</span>
                   </div>
-                ))}
-              </div>
+                  <div className="mt-10 space-y-16">
+                    {groupOrder.map((label) => (
+                      <div key={label}>
+                        <div className="mb-6 flex items-center gap-3 text-[11px] uppercase tracking-widest text-cream/80">
+                          <span className="h-px w-6 bg-cream/40" />
+                          <span>{label}</span>
+                          <span className="text-cream/40">· {groups[label]?.length || 0}</span>
+                        </div>
+                        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                          {groups[label]?.map((c) => <Card key={c.name} c={c} />)}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Paintings */}
+                <div className="mt-24">
+                  <div className="flex items-end justify-between gap-4 border-b border-cream/15 pb-4">
+                    <h3 className="font-serif text-3xl md:text-4xl text-[#F4E0A5]">Paintings</h3>
+                    <span className="text-[11px] uppercase tracking-widest text-cream/60">
+                      {paintings.length} pieces
+                    </span>
+                  </div>
+                  <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                    {paintings.map((c) => <Card key={c.name} c={c} />)}
+                  </div>
+                </div>
+              </>
             );
           })()}
         </div>
