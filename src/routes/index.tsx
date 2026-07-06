@@ -40,49 +40,60 @@ const NAV = [
 
 const TINTS = ["from-burgundy/40 to-forest", "from-forest to-burgundy/30", "from-burgundy/30 to-forest", "from-forest to-burgundy/20", "from-burgundy/25 to-forest", "from-forest to-burgundy/40"];
 
-const COLLECTIONS: { name: string; label: string; desc: string; tint: string; img: string }[] = [
-  { name: "Amigurumi Turtle Family", label: "Amigurumi", desc: "A colourful pod of hand-stitched turtles, each with its own quiet personality." },
-  { name: "Ducky Charm", label: "Keychain", desc: "A cheerful yellow duckling knotted onto a soft cotton loop." },
-  { name: "Frozen Doll Charm", label: "Amigurumi", desc: "A crocheted princess dressed in lilac, lavender and cream." },
-  { name: "Storybook Charm Bunch", label: "Keychain", desc: "A little gathering of characters tied onto a single strap." },
-  { name: "Sunflower Bloom Keychain", label: "Keychain", desc: "A pocket-sized sunflower stitched in warm mustard tones." },
-  { name: "Charm Cluster", label: "Keychain", desc: "A hand-tied bunch of miniature crochet charms." },
-  { name: "Kitty Bow Keychain", label: "Keychain", desc: "A soft white kitten finished with a scarlet bow." },
-  { name: "Little Chick", label: "Amigurumi", desc: "A round-cheeked chick perched on cream stripes." },
-  { name: "Berry Basket", label: "Handmade Décor", desc: "A tray of tiny crocheted strawberries, packed to gift." },
-  { name: "Rose Bouquet, Crimson", label: "Crochet Flowers", desc: "A dozen wool roses arranged for a keepsake vase." },
-  { name: "Potted Sunflower", label: "Crochet Flowers", desc: "A single sunflower rising from a woven wool pot." },
-  { name: "Frog Pals Tray", label: "Amigurumi", desc: "A parade of little green frog amigurumi, each hand-finished." },
-  { name: "White Daisy Bouquet", label: "Crochet Flowers", desc: "A softly-lit gathering of daisies, blossoms and cream leaves." },
-  { name: "Garden Rose Bouquet", label: "Crochet Flowers", desc: "Layered roses in dusty pink and cream, tied by hand." },
-  { name: "Daisy Scrunchie, Sky", label: "Scrunchies", desc: "A cotton scrunchie sewn with pale-blue crochet daisies." },
-  { name: "Flower Rows Display", label: "Crochet Flowers", desc: "A tabletop display of blooms in every seasonal shade." },
-  { name: "Lavender Daisy Band", label: "Accessories", desc: "A woven hair band trimmed with a row of purple daisies." },
-  { name: "Butterfly Keychain Trio", label: "Keychain", desc: "Ribbon-winged butterflies in scarlet, cream and forest." },
-  { name: "Ballet Doll Keychain", label: "Amigurumi", desc: "A pink-dressed dancer with braided hair and tiny slippers." },
-  { name: "Piglet Keychain, Blush", label: "Keychain", desc: "A tiny pink pig, palm-sized and hand-embroidered." },
-  { name: "Pig Plush", label: "Crochet Toys", desc: "A soft companion pig, weighted just enough to be held." },
-  { name: "Chick Duo Keychains", label: "Keychain", desc: "A pair of yellow chicks finished with cherry-red hats." },
-  { name: "Fingertip Kitty Charm", label: "Amigurumi", desc: "A cream kitten no bigger than a fingertip." },
-  { name: "Peach Bear Charm", label: "Amigurumi", desc: "A round little bear stitched in warm peach tones." },
-  { name: "Sunflower Palm Charm", label: "Keychain", desc: "A single sunflower charm that rests in the palm." },
-  { name: "Amigurumi Trio", label: "Amigurumi", desc: "Blue, yellow and red character dolls stitched as a matched set." },
-  { name: "Duck Family Charms", label: "Keychain", desc: "Three cheerful ducks on hand-braided rope ties." },
-  { name: "Yellow Bow Clip", label: "Accessories", desc: "A soft crochet bow in buttery yellow, finished on a clip." },
-  { name: "Lavender Bow Hair Piece", label: "Accessories", desc: "A generous lavender bow made for a low ponytail." },
-  { name: "Frog Trio Tray", label: "Amigurumi", desc: "Three small frogs arranged on a woven bamboo tray." },
-  { name: "Studio Bloom Spread", label: "Crochet Flowers", desc: "An assortment of wool blooms photographed together." },
-  { name: "Baby-Blue Pearl Charm", label: "Accessories", desc: "A tiny bell charm strung on a soft pearl chain." },
-  { name: "Bluebird Hanging Charm", label: "Amigurumi", desc: "A pale-blue bird tied to a length of natural cotton cord." },
-  { name: "Minion Charm", label: "Amigurumi", desc: "A collectible minion in trademark blue and yellow." },
-  { name: "Bluebird Pair", label: "Amigurumi", desc: "Two matching bluebirds, palm-sized and softly stuffed." },
-  { name: "Bow Trio, Autumn", label: "Accessories", desc: "A trio of bows in navy, blush and warm brown." },
-  { name: "Wool Sunflower Stems", label: "Crochet Flowers", desc: "Long-stemmed wool sunflowers, sold as individual stems." },
-  { name: "Frog Basket, Wide", label: "Amigurumi", desc: "A wide tray of green frog amigurumi ready to be gifted." },
-  { name: "Daisy Basket Bouquet", label: "Crochet Flowers", desc: "A basket bouquet of pink, cream and yellow daisies." },
-  { name: "Bluebird, Petite", label: "Amigurumi", desc: "A pocket-sized bluebird finished on a hanging cord." },
-  { name: "Kitty Fingertip Charm", label: "Amigurumi", desc: "A tiny fingertip-sized cream kitten with a red bow." },
-].map((p, i) => ({ ...p, tint: TINTS[i % TINTS.length], img: `/images/products/product-${String(i + 1).padStart(2, "0")}.jpg` }));
+const COLLECTIONS_RAW: { name: string; category: "Crochets" | "Paintings"; subcategory: string; desc: string }[] = [
+  { name: "Amigurumi Turtle Family", category: "Crochets", subcategory: "Crochet Toys", desc: "A colourful pod of hand-stitched turtles, each with its own quiet personality." },
+  { name: "Ducky Charm", category: "Crochets", subcategory: "Keychains", desc: "A cheerful yellow duckling knotted onto a soft cotton loop." },
+  { name: "Frozen Doll Charm", category: "Crochets", subcategory: "Crochet Toys", desc: "A crocheted princess dressed in lilac, lavender and cream." },
+  { name: "Storybook Charm Bunch", category: "Crochets", subcategory: "Keychains", desc: "A little gathering of characters tied onto a single strap." },
+  { name: "Sunflower Bloom Keychain", category: "Crochets", subcategory: "Keychains", desc: "A pocket-sized sunflower stitched in warm mustard tones." },
+  { name: "Charm Cluster", category: "Crochets", subcategory: "Keychains", desc: "A hand-tied bunch of miniature crochet charms." },
+  { name: "Kitty Bow Keychain", category: "Crochets", subcategory: "Keychains", desc: "A soft white kitten finished with a scarlet bow." },
+  { name: "Little Chick", category: "Crochets", subcategory: "Crochet Toys", desc: "A round-cheeked chick perched on cream stripes." },
+  { name: "Berry Basket", category: "Crochets", subcategory: "Handloom Decor", desc: "A tray of tiny crocheted strawberries, packed to gift." },
+  { name: "Rose Bouquet, Crimson", category: "Crochets", subcategory: "Handloom Decor", desc: "A dozen wool roses arranged for a keepsake vase." },
+  { name: "Potted Sunflower", category: "Crochets", subcategory: "Handloom Decor", desc: "A single sunflower rising from a woven wool pot." },
+  { name: "Frog Pals Tray", category: "Crochets", subcategory: "Crochet Toys", desc: "A parade of little green frog amigurumi, each hand-finished." },
+  { name: "White Daisy Bouquet", category: "Crochets", subcategory: "Handloom Decor", desc: "A softly-lit gathering of daisies, blossoms and cream leaves." },
+  { name: "Garden Rose Bouquet", category: "Crochets", subcategory: "Handloom Decor", desc: "Layered roses in dusty pink and cream, tied by hand." },
+  { name: "Daisy Scrunchie, Sky", category: "Crochets", subcategory: "Scrunchies", desc: "A cotton scrunchie sewn with pale-blue crochet daisies." },
+  { name: "Flower Rows Display", category: "Crochets", subcategory: "Handloom Decor", desc: "A tabletop display of blooms in every seasonal shade." },
+  { name: "Lavender Daisy Band", category: "Crochets", subcategory: "Accessories", desc: "A woven hair band trimmed with a row of purple daisies." },
+  { name: "Butterfly Keychain Trio", category: "Crochets", subcategory: "Keychains", desc: "Ribbon-winged butterflies in scarlet, cream and forest." },
+  { name: "Ballet Doll Keychain", category: "Crochets", subcategory: "Crochet Toys", desc: "A pink-dressed dancer with braided hair and tiny slippers." },
+  { name: "Piglet Keychain, Blush", category: "Crochets", subcategory: "Keychains", desc: "A tiny pink pig, palm-sized and hand-embroidered." },
+  { name: "Pig Plush", category: "Crochets", subcategory: "Crochet Toys", desc: "A soft companion pig, weighted just enough to be held." },
+  { name: "Chick Duo Keychains", category: "Crochets", subcategory: "Keychains", desc: "A pair of yellow chicks finished with cherry-red hats." },
+  { name: "Fingertip Kitty Charm", category: "Crochets", subcategory: "Crochet Toys", desc: "A cream kitten no bigger than a fingertip." },
+  { name: "Peach Bear Charm", category: "Crochets", subcategory: "Crochet Toys", desc: "A round little bear stitched in warm peach tones." },
+  { name: "Sunflower Palm Charm", category: "Crochets", subcategory: "Keychains", desc: "A single sunflower charm that rests in the palm." },
+  { name: "Amigurumi Trio", category: "Crochets", subcategory: "Crochet Toys", desc: "Blue, yellow and red character dolls stitched as a matched set." },
+  { name: "Duck Family Charms", category: "Crochets", subcategory: "Keychains", desc: "Three cheerful ducks on hand-braided rope ties." },
+  { name: "Yellow Bow Clip", category: "Crochets", subcategory: "Accessories", desc: "A soft crochet bow in buttery yellow, finished on a clip." },
+  { name: "Lavender Bow Hair Piece", category: "Crochets", subcategory: "Accessories", desc: "A generous lavender bow made for a low ponytail." },
+  { name: "Frog Trio Tray", category: "Crochets", subcategory: "Crochet Toys", desc: "Three small frogs arranged on a woven bamboo tray." },
+  { name: "Studio Bloom Spread", category: "Crochets", subcategory: "Handloom Decor", desc: "An assortment of wool blooms photographed together." },
+  { name: "Baby-Blue Pearl Charm", category: "Crochets", subcategory: "Accessories", desc: "A tiny bell charm strung on a soft pearl chain." },
+  { name: "Bluebird Hanging Charm", category: "Crochets", subcategory: "Crochet Toys", desc: "A pale-blue bird tied to a length of natural cotton cord." },
+  { name: "Minion Charm", category: "Crochets", subcategory: "Crochet Toys", desc: "A collectible minion in trademark blue and yellow." },
+  { name: "Bluebird Pair", category: "Crochets", subcategory: "Crochet Toys", desc: "Two matching bluebirds, palm-sized and softly stuffed." },
+  { name: "Bow Trio, Autumn", category: "Crochets", subcategory: "Accessories", desc: "A trio of bows in navy, blush and warm brown." },
+  { name: "Wool Sunflower Stems", category: "Crochets", subcategory: "Handloom Decor", desc: "Long-stemmed wool sunflowers, sold as individual stems." },
+  { name: "Frog Basket, Wide", category: "Crochets", subcategory: "Crochet Toys", desc: "A wide tray of green frog amigurumi ready to be gifted." },
+  { name: "Daisy Basket Bouquet", category: "Crochets", subcategory: "Handloom Decor", desc: "A basket bouquet of pink, cream and yellow daisies." },
+  { name: "Bluebird, Petite", category: "Crochets", subcategory: "Crochet Toys", desc: "A pocket-sized bluebird finished on a hanging cord." },
+  { name: "Kitty Fingertip Charm", category: "Crochets", subcategory: "Crochet Toys", desc: "A tiny fingertip-sized cream kitten with a red bow." },
+  // Paintings
+  { name: "A Forest Symphony", category: "Paintings", subcategory: "Paintings", desc: "Original textured acrylic canvas art showing details of leaves and natural textures." },
+  { name: "Wildflowers & Meadows", category: "Paintings", subcategory: "Paintings", desc: "Vibrant and structured palette knife floral paintings done on premium paper." }
+];
+
+const COLLECTIONS: { name: string; category: "Crochets" | "Paintings"; subcategory: string; desc: string; tint: string; img: string }[] = COLLECTIONS_RAW.map((p, i) => {
+  const isPainting = p.category === "Paintings";
+  const imgUrl = isPainting 
+    ? (p.name === "A Forest Symphony" ? "/images/gallery/paintings.jpg" : "/images/gallery/handmade-crafts.jpg")
+    : `/images/products/product-${String(i + 1).padStart(2, "0")}.jpg`;
+  return { ...p, tint: TINTS[i % TINTS.length], img: imgUrl };
+});
 
 
 
@@ -98,6 +109,11 @@ const GALLERY = [
 
 function Home() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalCategory, setModalCategory] = useState<"Crochets" | "Paintings">("Crochets");
+  const [modalSubcategory, setModalSubcategory] = useState<string>("Keychains");
+  const [inlineCategory, setInlineCategory] = useState<"Crochets" | "Paintings">("Crochets");
+  const [inlineSubcategory, setInlineSubcategory] = useState<string>("Keychains");
   return (
     <div className="min-h-screen bg-forest font-sans text-cream">
       {/* Full-bleed hero */}
@@ -185,9 +201,16 @@ function Home() {
             Handcrafted & Customized <span className="italic text-cream/70">Artwork from Artizens Across India</span>
           </h1>
           <div className="mt-12 flex flex-wrap gap-4">
-            <a href="#collections" className="rounded-full bg-burgundy px-10 py-4 text-sm font-medium uppercase tracking-widest text-cream shadow-2xl shadow-burgundy/40 transition-transform hover:scale-105">
+            <button
+              onClick={() => {
+                setIsModalOpen(true);
+                setModalCategory("Crochets");
+                setModalSubcategory("Keychains");
+              }}
+              className="rounded-full bg-burgundy px-10 py-4 text-sm font-medium uppercase tracking-widest text-cream shadow-2xl shadow-burgundy/40 transition-transform hover:scale-105"
+            >
               View Our Products
-            </a>
+            </button>
             <a href="#contact" className="rounded-full border border-cream/30 bg-cream/5 px-10 py-4 text-sm font-medium uppercase tracking-widest backdrop-blur-xl hover:bg-cream/10">
               Enquire Now
             </a>
@@ -411,107 +434,86 @@ function Home() {
             </a>
           </div>
 
-          {(() => {
-            const crochet = COLLECTIONS.filter((p) => p.label.toLowerCase() !== "paintings");
-            const paintings = COLLECTIONS.filter((p) => p.label.toLowerCase() === "paintings");
-            const groups = crochet.reduce<Record<string, typeof COLLECTIONS>>((acc, p) => {
-              (acc[p.label] ||= []).push(p);
-              return acc;
-            }, {});
-            const groupOrder = Array.from(new Set(crochet.map((p) => p.label)));
+          {/* Category tabs */}
+          <div className="mt-14 flex gap-4 border-b border-cream/10 pb-4">
+            {["Crochets", "Paintings"].map((cat) => (
+              <button
+                key={cat}
+                onClick={() => {
+                  setInlineCategory(cat as any);
+                  setInlineSubcategory(cat === "Crochets" ? "Keychains" : "Paintings");
+                }}
+                className={`rounded-full px-6 py-2.5 text-xs font-semibold uppercase tracking-widest transition-all ${
+                  inlineCategory === cat
+                    ? "bg-[#F4E0A5] text-forest shadow-md"
+                    : "bg-cream/5 text-cream/80 border border-cream/10 hover:bg-cream/10"
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
 
-            const Card = ({ c }: { c: (typeof COLLECTIONS)[number] }) => (
-              <div key={c.name} className="group relative overflow-hidden rounded-3xl border border-cream/15 bg-cream/5 transition-transform duration-500 hover:-translate-y-1">
-                <div className={`relative aspect-[4/5] w-full overflow-hidden bg-gradient-to-br ${c.tint}`}>
-                  <img
-                    src={c.img}
-                    alt={c.name}
-                    loading="lazy"
-                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-forest/85 via-forest/25 to-transparent" />
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(128,0,32,0.35),transparent_55%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                  <div className="absolute left-5 top-5 rounded-full border border-cream/25 bg-forest/50 px-3 py-1 text-[10px] uppercase tracking-widest text-cream/85 backdrop-blur">
-                    {c.label}
-                  </div>
-                  <Flower2 className="absolute bottom-5 right-5 size-8 text-cream/60 transition-transform duration-500 group-hover:rotate-12" strokeWidth={1.25} />
-                </div>
-                <div className="p-6">
-                  <h3 className="font-serif text-xl leading-snug">{c.name}</h3>
-                  <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-cream/70">{c.desc}</p>
-                  <a href="#contact" className="mt-5 inline-flex items-center gap-1.5 text-[11px] uppercase tracking-widest text-cream/90 transition group-hover:gap-2.5">
-                    View Collection <ArrowUpRight className="size-3.5" />
-                  </a>
-                </div>
-              </div>
+          {/* Subcategory selectors */}
+          <div className="mt-4 flex flex-wrap gap-2.5">
+            {(inlineCategory === "Crochets"
+              ? ["Keychains", "Handloom Decor", "Scrunchies", "Accessories", "Crochet Toys"]
+              : ["Paintings"]
+            ).map((sub) => (
+              <button
+                key={sub}
+                onClick={() => setInlineSubcategory(sub)}
+                className={`rounded-full px-4 py-2 text-[10px] font-semibold uppercase tracking-widest transition-all ${
+                  inlineSubcategory === sub
+                    ? "bg-burgundy text-cream shadow-md"
+                    : "bg-cream/5 text-cream/60 border border-cream/5 hover:bg-cream/10"
+                }`}
+              >
+                {sub}
+              </button>
+            ))}
+          </div>
+
+          {/* Inline grid of products */}
+          {(() => {
+            const filteredItems = COLLECTIONS.filter(
+              (item) => item.category === inlineCategory && item.subcategory === inlineSubcategory
             );
 
             return (
-              <>
-                {/* Crochet */}
-                <div className="mt-20">
-                  <div className="flex items-end justify-between gap-4 border-b border-cream/15 pb-4">
-                    <h3 className="font-serif text-3xl md:text-4xl">Crochet</h3>
-                    <span className="text-[11px] uppercase tracking-widest text-cream/60">{crochet.length} pieces</span>
-                  </div>
-                  <div className="mt-10 space-y-16">
-                    {groupOrder.map((label) => (
-                      <div key={label}>
-                        <div className="mb-6 flex items-center gap-3 text-[11px] uppercase tracking-widest text-cream/80">
-                          <span className="h-px w-6 bg-cream/40" />
-                          <span>{label}</span>
-                          <span className="text-cream/40">· {groups[label].length}</span>
-                        </div>
-                        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                          {groups[label].map((c) => <Card key={c.name} c={c} />)}
-                        </div>
+              <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                {filteredItems.map((c) => (
+                  <div
+                    key={c.name}
+                    className="group relative overflow-hidden rounded-3xl border border-cream/15 bg-cream/5 transition-transform duration-500 hover:-translate-y-1"
+                  >
+                    <div className={`relative aspect-[4/5] w-full overflow-hidden bg-gradient-to-br ${c.tint}`}>
+                      <img
+                        src={c.img}
+                        alt={c.name}
+                        loading="lazy"
+                        className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-forest/85 via-forest/25 to-transparent" />
+                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(128,0,32,0.35),transparent_55%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                      <div className="absolute left-5 top-5 rounded-full border border-cream/25 bg-forest/50 px-3 py-1 text-[10px] uppercase tracking-widest text-cream/85 backdrop-blur">
+                        {c.subcategory}
                       </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Paintings */}
-                <div className="mt-24">
-                  <div className="flex items-end justify-between gap-4 border-b border-cream/15 pb-4">
-                    <h3 className="font-serif text-3xl md:text-4xl">Paintings</h3>
-                    <span className="text-[11px] uppercase tracking-widest text-cream/60">
-                      {paintings.length > 0 ? `${paintings.length} pieces` : "Coming soon"}
-                    </span>
-                  </div>
-                  {paintings.length > 0 ? (
-                    <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                      {paintings.map((c) => <Card key={c.name} c={c} />)}
+                      <Flower2 className="absolute bottom-5 right-5 size-8 text-cream/60 transition-transform duration-500 group-hover:rotate-12" strokeWidth={1.25} />
                     </div>
-                  ) : (
-                    <div className="mt-10 overflow-hidden rounded-3xl border border-cream/15 bg-cream/5">
-                      <div className="grid gap-0 md:grid-cols-2">
-                        <div className="relative aspect-[4/3] md:aspect-auto">
-                          <img
-                            src="/images/gallery/paintings.jpg"
-                            alt="Paintings in progress"
-                            loading="lazy"
-                            className="absolute inset-0 h-full w-full object-cover"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-forest/70 via-transparent to-transparent" />
-                        </div>
-                        <div className="flex flex-col justify-center gap-5 p-8 md:p-12">
-                          <div className="text-[11px] uppercase tracking-widest text-cream/70">A new chapter</div>
-                          <h4 className="font-serif text-2xl leading-snug md:text-3xl">
-                            Original paintings, arriving soon.
-                          </h4>
-                          <p className="text-cream/70">
-                            We&rsquo;re quietly building a small collection of original paintings alongside the crochet work.
-                            Message us to be the first to see new pieces or to commission one.
-                          </p>
-                          <a href="#contact" className="inline-flex w-fit items-center gap-2 rounded-full border border-cream/25 bg-cream/5 px-5 py-2.5 text-[11px] uppercase tracking-widest hover:bg-cream/10">
-                            Enquire About Paintings <ArrowUpRight className="size-3.5" />
-                          </a>
-                        </div>
-                      </div>
+                    <div className="p-6">
+                      <h3 className="font-serif text-xl leading-snug">{c.name}</h3>
+                      <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-cream/70">{c.desc}</p>
+                      <a
+                        href="#contact"
+                        className="mt-5 inline-flex items-center gap-1.5 text-[11px] uppercase tracking-widest text-cream/90 transition group-hover:gap-2.5"
+                      >
+                        View Collection <ArrowUpRight className="size-3.5" />
+                      </a>
                     </div>
-                  )}
-                </div>
-              </>
+                  </div>
+                ))}
+              </div>
             );
           })()}
         </div>
@@ -728,6 +730,113 @@ function Home() {
           <Instagram className="size-5 transition-transform duration-300 group-hover:rotate-6" strokeWidth={1.75} />
         </a>
       </div>
+
+      {/* View Our Products Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-in fade-in duration-200">
+          <div 
+            className="absolute inset-0 bg-forest/80 backdrop-blur-md cursor-pointer"
+            onClick={() => setIsModalOpen(false)}
+          />
+          
+          <div className="relative z-10 flex h-[85vh] w-full max-w-5xl flex-col rounded-[2.5rem] border border-cream/15 bg-forest/95 p-6 shadow-2xl backdrop-blur-2xl transition-all duration-300 md:p-10 animate-in fade-in zoom-in-95 duration-300">
+            <button 
+              onClick={() => setIsModalOpen(false)}
+              className="absolute right-6 top-6 flex size-10 items-center justify-center rounded-full border border-cream/15 bg-cream/5 text-cream/70 hover:bg-cream/10 hover:text-cream transition-all"
+              aria-label="Close modal"
+            >
+              <X className="size-5" />
+            </button>
+
+            <div className="mb-6 flex flex-col gap-2">
+              <h2 className="font-serif text-3xl md:text-4xl text-[#F4E0A5]">Our Products</h2>
+              <p className="text-sm text-cream/60">Explore our slowly crafted and curated collections.</p>
+            </div>
+
+            {/* Category tabs */}
+            <div className="flex gap-4 border-b border-cream/10 pb-4">
+              {["Crochets", "Paintings"].map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => {
+                    setModalCategory(cat as any);
+                    setModalSubcategory(cat === "Crochets" ? "Keychains" : "Paintings");
+                  }}
+                  className={`rounded-full px-6 py-2.5 text-xs font-semibold uppercase tracking-widest transition-all ${
+                    modalCategory === cat
+                      ? "bg-[#F4E0A5] text-forest shadow-md"
+                      : "bg-cream/5 text-cream/80 border border-cream/10 hover:bg-cream/10"
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+
+            {/* Subcategory selectors */}
+            <div className="mt-4 flex flex-wrap gap-2.5">
+              {(modalCategory === "Crochets"
+                ? ["Keychains", "Handloom Decor", "Scrunchies", "Accessories", "Crochet Toys"]
+                : ["Paintings"]
+              ).map((sub) => (
+                <button
+                  key={sub}
+                  onClick={() => setModalSubcategory(sub)}
+                  className={`rounded-full px-4 py-2 text-[10px] font-semibold uppercase tracking-widest transition-all ${
+                    modalSubcategory === sub
+                      ? "bg-burgundy text-cream shadow-md"
+                      : "bg-cream/5 text-cream/60 border border-cream/5 hover:bg-cream/10"
+                  }`}
+                >
+                  {sub}
+                </button>
+              ))}
+            </div>
+
+            {/* Products Grid inside Modal */}
+            <div className="mt-6 flex-1 overflow-y-auto pr-2 custom-scrollbar">
+              {(() => {
+                const filteredItems = COLLECTIONS.filter(
+                  (item) => item.category === modalCategory && item.subcategory === modalSubcategory
+                );
+
+                return (
+                  <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    {filteredItems.map((c) => (
+                      <div
+                        key={c.name}
+                        className="group relative overflow-hidden rounded-2xl border border-cream/10 bg-cream/5 transition-all duration-300 hover:border-cream/20"
+                      >
+                        <div className={`relative aspect-[4/5] w-full overflow-hidden bg-gradient-to-br ${c.tint}`}>
+                          <img
+                            src={c.img}
+                            alt={c.name}
+                            loading="lazy"
+                            className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-forest/80 via-transparent to-transparent" />
+                        </div>
+                        <div className="p-5">
+                          <h3 className="font-serif text-lg leading-snug">{c.name}</h3>
+                          <p className="mt-1.5 line-clamp-2 text-xs leading-relaxed text-cream/70">{c.desc}</p>
+                          <a
+                            href="https://wa.me/917842361772"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="mt-4 inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-widest text-[#F4E0A5] hover:text-cream transition-colors"
+                          >
+                            Enquire on WhatsApp <ArrowUpRight className="size-3" />
+                          </a>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                );
+              })()}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
