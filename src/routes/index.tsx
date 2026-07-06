@@ -167,9 +167,18 @@ function Home() {
         <img src={HERO_SRC} alt="" className="absolute inset-0 h-full w-full object-cover opacity-60" loading="eager" />
         <div className="absolute inset-0 bg-gradient-to-b from-forest/40 via-forest/60 to-forest" />
 
+        {/* Subtle background watermark */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
+          <img 
+            src="/images/logo/wool-watermark.png" 
+            alt="" 
+            className="w-[120vw] max-w-[650px] aspect-square object-contain opacity-[0.06] md:max-w-[850px]"
+          />
+        </div>
+
         {/* Glass nav */}
-        <nav className="relative z-10">
-          <div className="mx-auto mt-6 flex h-24 max-w-6xl items-center justify-between rounded-full border border-cream/15 bg-cream/10 py-2 pl-5 pr-6 backdrop-blur-xl">
+        <nav className="fixed top-0 left-0 right-0 z-50 w-full px-4 md:px-6 pointer-events-none">
+          <div className="mx-auto mt-6 flex h-24 max-w-6xl items-center justify-between rounded-full border border-cream/15 bg-cream/10 py-2 pl-5 pr-6 backdrop-blur-xl shadow-lg shadow-forest/15 pointer-events-auto">
             <Link to="/" className="flex shrink-0 items-center">
               <img
                 src={LOGO_SRC}
@@ -189,13 +198,11 @@ function Home() {
             >
               Enquire <ArrowUpRight className="size-3.5" />
             </a>
-
-
           </div>
         </nav>
 
         {/* Hero content */}
-        <div className="relative z-10 mx-auto flex min-h-[calc(100vh-6rem)] max-w-6xl flex-col justify-center px-6 py-12">
+        <div className="relative z-10 mx-auto flex min-h-[calc(100vh-6rem)] max-w-6xl flex-col justify-center px-6 py-12 pt-32 md:pt-12">
           <div className="mb-8 flex flex-col items-center md:items-start gap-4">
             <img
               src={LOGO_SRC}
@@ -203,18 +210,9 @@ function Home() {
               className="h-40 w-auto md:h-48 object-contain rounded-[32px] filter drop-shadow-2xl"
             />
           </div>
-          <div className="inline-flex w-fit items-center gap-2 rounded-full border border-cream/20 bg-cream/5 px-4 py-1.5 text-[11px] uppercase tracking-widest backdrop-blur-xl">
-            <Sparkles className="size-3 text-[#F4E0A5]" /> A father-daughter atelier · Est. India
-          </div>
           <h1 className="mt-8 max-w-4xl font-serif text-6xl leading-[0.95] tracking-tight md:text-8xl">
-            Handcrafted<br />
-            crochet &amp; art,<br />
-            <span className="italic text-cream/70">stitched with intention.</span>
+            Handcrafted and Customized Artwork from Artizens Across India
           </h1>
-          <p className="mt-8 max-w-xl text-lg text-cream/80">
-            A father-daughter crochet atelier. Explore our handmade collections and get in touch to commission
-            something one-of-a-kind.
-          </p>
           <div className="mt-12 flex flex-wrap gap-4">
             <a href="#products" className="rounded-full bg-burgundy px-10 py-4 text-sm font-medium uppercase tracking-widest text-cream shadow-2xl shadow-burgundy/40 transition-transform hover:scale-105">
               View Collection
@@ -265,8 +263,8 @@ function Home() {
       {/* Our Story */}
       <section id="story" className="relative px-6 py-28 md:py-36">
         <div className="mx-auto max-w-3xl">
-          <div className="flex items-center gap-3 text-[11px] uppercase tracking-widest text-burgundy">
-            <span className="h-px w-8 bg-burgundy/60" />
+          <div className="flex items-center gap-3 text-[11px] uppercase tracking-widest text-[#F4E0A5] font-semibold">
+            <span className="h-px w-8 bg-[#F4E0A5]/60" />
             Our Story
           </div>
           <h2 className="mt-6 font-serif text-5xl leading-[1.05] tracking-tight md:text-6xl">
@@ -555,8 +553,8 @@ function Home() {
       <section id="gallery" className="relative border-t border-cream/10 px-6 py-28 md:py-36">
         <div className="mx-auto max-w-6xl">
           <div className="max-w-2xl">
-            <div className="flex items-center gap-3 text-[11px] uppercase tracking-widest text-burgundy">
-              <span className="h-px w-8 bg-burgundy/60" />
+            <div className="flex items-center gap-3 text-[11px] uppercase tracking-widest text-[#F4E0A5] font-semibold">
+              <span className="h-px w-8 bg-[#F4E0A5]/60" />
               Gallery
             </div>
             <h2 className="mt-6 font-serif text-5xl leading-[1.05] tracking-tight md:text-6xl">
@@ -594,8 +592,8 @@ function Home() {
       <section id="contact" className="relative border-t border-cream/10 px-6 py-28 md:py-36">
         <div className="mx-auto max-w-6xl">
           <div className="max-w-2xl">
-            <div className="flex items-center gap-3 text-[11px] uppercase tracking-widest text-burgundy">
-              <span className="h-px w-8 bg-burgundy/60" />
+            <div className="flex items-center gap-3 text-[11px] uppercase tracking-widest text-[#F4E0A5] font-semibold">
+              <span className="h-px w-8 bg-[#F4E0A5]/60" />
               Get in Touch
             </div>
             <h2 className="mt-6 font-serif text-5xl leading-[1.05] tracking-tight md:text-6xl">
@@ -608,7 +606,7 @@ function Home() {
           </div>
 
           <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-            <a href="https://wa.me/917842361772" target="_blank" rel="noopener noreferrer" className="group relative overflow-hidden rounded-3xl border border-cream/15 bg-cream/5 p-8 backdrop-blur-xl transition-all hover:-translate-y-1 hover:border-burgundy/40">
+            <a href="https://wa.me/917842361772" target="_blank" rel="noopener noreferrer" className="group relative overflow-hidden rounded-3xl border border-cream/15 bg-cream/5 p-8 backdrop-blur-xl transition-all hover:-translate-y-1 hover:border-cream/35">
               <div className="flex size-12 items-center justify-center rounded-2xl border border-cream/20 bg-cream/10">
                 <MessageCircle className="size-5 text-[#F4E0A5]" strokeWidth={2.25} />
               </div>
@@ -616,14 +614,14 @@ function Home() {
               <p className="mt-3 text-sm leading-relaxed text-cream/70">
                 The fastest way to reach the studio. Send us a note, a reference, or a question.
               </p>
-              <div className="mt-6 flex min-w-0 items-center gap-2 text-sm font-medium tracking-wide text-cream transition-colors duration-300 group-hover:text-burgundy">
-                <span className="min-w-0 break-words border-b border-burgundy/0 pb-0.5 transition-colors duration-300 group-hover:border-burgundy">
+              <div className="mt-6 flex min-w-0 items-center gap-2 text-sm font-medium tracking-wide text-cream transition-colors duration-300">
+                <span className="min-w-0 break-words border-b border-cream/0 pb-0.5 transition-colors duration-300 group-hover:border-cream/60">
                   +91 78423 61772
                 </span>
                 <ArrowUpRight className="size-4 shrink-0" />
               </div>
             </a>
-            <a href="tel:+917842361772" className="group relative overflow-hidden rounded-3xl border border-cream/15 bg-cream/5 p-8 backdrop-blur-xl transition-all hover:-translate-y-1 hover:border-burgundy/40">
+            <a href="tel:+917842361772" className="group relative overflow-hidden rounded-3xl border border-cream/15 bg-cream/5 p-8 backdrop-blur-xl transition-all hover:-translate-y-1 hover:border-cream/35">
               <div className="flex size-12 items-center justify-center rounded-2xl border border-cream/20 bg-cream/10">
                 <Phone className="size-5 text-[#F4E0A5]" strokeWidth={2.25} />
               </div>
@@ -631,14 +629,14 @@ function Home() {
               <p className="mt-3 text-sm leading-relaxed text-cream/70">
                 Prefer to talk? Give us a call &mdash; we&apos;re happy to help with commissions and orders.
               </p>
-              <div className="mt-6 flex min-w-0 items-center gap-2 text-sm font-medium tracking-wide text-cream transition-colors duration-300 group-hover:text-burgundy">
-                <span className="min-w-0 break-words border-b border-burgundy/0 pb-0.5 transition-colors duration-300 group-hover:border-burgundy">
+              <div className="mt-6 flex min-w-0 items-center gap-2 text-sm font-medium tracking-wide text-cream transition-colors duration-300">
+                <span className="min-w-0 break-words border-b border-cream/0 pb-0.5 transition-colors duration-300 group-hover:border-cream/60">
                   +91 78423 61772
                 </span>
                 <ArrowUpRight className="size-4 shrink-0" />
               </div>
             </a>
-            <a href="https://www.instagram.com/looptiestudio?igsh=MTU5NzZkOWQ2bm94ZA==" target="_blank" rel="noopener noreferrer" className="group relative overflow-hidden rounded-3xl border border-cream/15 bg-cream/5 p-8 backdrop-blur-xl transition-all hover:-translate-y-1 hover:border-burgundy/40">
+            <a href="https://www.instagram.com/looptiestudio?igsh=MTU5NzZkOWQ2bm94ZA==" target="_blank" rel="noopener noreferrer" className="group relative overflow-hidden rounded-3xl border border-cream/15 bg-cream/5 p-8 backdrop-blur-xl transition-all hover:-translate-y-1 hover:border-cream/35">
               <div className="flex size-12 items-center justify-center rounded-2xl border border-cream/20 bg-cream/10">
                 <Instagram className="size-5 text-[#F4E0A5]" strokeWidth={2.25} />
               </div>
@@ -646,14 +644,14 @@ function Home() {
               <p className="mt-3 text-sm leading-relaxed text-cream/70">
                 See work in progress, new drops, and quiet moments from the atelier.
               </p>
-              <div className="mt-6 flex min-w-0 items-center gap-2 text-sm font-medium tracking-wide text-cream transition-colors duration-300 group-hover:text-burgundy">
-                <span className="min-w-0 break-words border-b border-burgundy/0 pb-0.5 transition-colors duration-300 group-hover:border-burgundy">
+              <div className="mt-6 flex min-w-0 items-center gap-2 text-sm font-medium tracking-wide text-cream transition-colors duration-300">
+                <span className="min-w-0 break-words border-b border-cream/0 pb-0.5 transition-colors duration-300 group-hover:border-cream/60">
                   @looptiestudio
                 </span>
                 <ArrowUpRight className="size-4 shrink-0" />
               </div>
             </a>
-            <a href="mailto:looptiestudio@gmail.com" className="group relative overflow-hidden rounded-3xl border border-cream/15 bg-cream/5 p-8 backdrop-blur-xl transition-all hover:-translate-y-1 hover:border-burgundy/40">
+            <a href="mailto:looptiestudio@gmail.com" className="group relative overflow-hidden rounded-3xl border border-cream/15 bg-cream/5 p-8 backdrop-blur-xl transition-all hover:-translate-y-1 hover:border-cream/35">
               <div className="flex size-12 items-center justify-center rounded-2xl border border-cream/20 bg-cream/10">
                 <Mail className="size-5 text-[#F4E0A5]" strokeWidth={2.25} />
               </div>
@@ -662,8 +660,8 @@ function Home() {
                 For commissions, collaborations, and press &mdash; write to us and we&apos;ll get back within a
                 day or two.
               </p>
-              <div className="mt-6 flex min-w-0 items-center gap-2 text-sm font-medium tracking-wide text-cream transition-colors duration-300 group-hover:text-burgundy">
-                <span className="min-w-0 break-words border-b border-burgundy/0 pb-0.5 transition-colors duration-300 group-hover:border-burgundy">
+              <div className="mt-6 flex min-w-0 items-center gap-2 text-sm font-medium tracking-wide text-cream transition-colors duration-300">
+                <span className="min-w-0 break-words border-b border-cream/0 pb-0.5 transition-colors duration-300 group-hover:border-cream/60">
                   looptiestudio@gmail.com
                 </span>
                 <ArrowUpRight className="size-4 shrink-0" />
@@ -684,7 +682,7 @@ function Home() {
             <p className="mt-4 text-sm text-cream/60">A father-daughter atelier &mdash; slow, handmade, and quietly curated.</p>
           </div>
           <div>
-            <div className="text-[11px] uppercase tracking-widest text-burgundy">Explore</div>
+            <div className="text-[11px] uppercase tracking-widest text-[#F4E0A5] font-semibold">Explore</div>
             <ul className="mt-4 space-y-2 text-sm">
               {NAV.map((l) => (
                 <li key={l.label}><a href={l.href} className="hover:text-cream">{l.label}</a></li>
@@ -692,25 +690,25 @@ function Home() {
             </ul>
           </div>
           <div>
-            <div className="text-[11px] uppercase tracking-widest text-burgundy">Studio</div>
+            <div className="text-[11px] uppercase tracking-widest text-[#F4E0A5] font-semibold">Studio</div>
             <ul className="mt-4 space-y-2 text-sm">
               <li>
                 <a href="mailto:looptiestudio@gmail.com" className="group inline-flex min-w-0 items-center font-medium text-cream/90 transition-colors duration-300 hover:text-cream">
-                  <span className="min-w-0 break-words border-b border-burgundy/0 pb-0.5 transition-colors duration-300 group-hover:border-burgundy/80">
+                  <span className="min-w-0 break-words border-b border-cream/0 pb-0.5 transition-colors duration-300 group-hover:border-cream/80">
                     looptiestudio@gmail.com
                   </span>
                 </a>
               </li>
               <li>
                 <a href="tel:+917842361772" className="group inline-flex min-w-0 items-center font-medium text-cream/90 transition-colors duration-300 hover:text-cream">
-                  <span className="min-w-0 break-words border-b border-burgundy/0 pb-0.5 transition-colors duration-300 group-hover:border-burgundy/80">
+                  <span className="min-w-0 break-words border-b border-cream/0 pb-0.5 transition-colors duration-300 group-hover:border-cream/80">
                     +91 78423 61772
                   </span>
                 </a>
               </li>
               <li>
                 <a href="https://wa.me/917842361772" target="_blank" rel="noopener noreferrer" className="group inline-flex min-w-0 items-center font-medium text-cream/90 transition-colors duration-300 hover:text-cream">
-                  <span className="min-w-0 break-words border-b border-burgundy/0 pb-0.5 transition-colors duration-300 group-hover:border-burgundy/80">
+                  <span className="min-w-0 break-words border-b border-cream/0 pb-0.5 transition-colors duration-300 group-hover:border-cream/80">
                     WhatsApp: +91 78423 61772
                   </span>
                 </a>
@@ -719,18 +717,18 @@ function Home() {
             </ul>
           </div>
           <div>
-            <div className="text-[11px] uppercase tracking-widest text-burgundy">Follow</div>
+            <div className="text-[11px] uppercase tracking-widest text-[#F4E0A5] font-semibold">Follow</div>
             <div className="mt-4 flex gap-3">
-              <a href="mailto:looptiestudio@gmail.com" aria-label="Email" className="rounded-full border border-cream/20 p-2 text-cream/80 transition-colors duration-300 hover:bg-cream/10 hover:text-burgundy">
+              <a href="mailto:looptiestudio@gmail.com" aria-label="Email" className="rounded-full border border-cream/20 p-2 text-cream/80 transition-colors duration-300 hover:bg-cream/10 hover:text-cream">
                 <Mail className="size-4" strokeWidth={1.75} />
               </a>
-              <a href="tel:+917842361772" aria-label="Phone" className="rounded-full border border-cream/20 p-2 text-cream/80 transition-colors duration-300 hover:bg-cream/10 hover:text-burgundy">
+              <a href="tel:+917842361772" aria-label="Phone" className="rounded-full border border-cream/20 p-2 text-cream/80 transition-colors duration-300 hover:bg-cream/10 hover:text-cream">
                 <Phone className="size-4" strokeWidth={1.75} />
               </a>
-              <a href="https://wa.me/917842361772" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" className="rounded-full border border-cream/20 p-2 text-cream/80 transition-colors duration-300 hover:bg-cream/10 hover:text-burgundy">
+              <a href="https://wa.me/917842361772" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" className="rounded-full border border-cream/20 p-2 text-cream/80 transition-colors duration-300 hover:bg-cream/10 hover:text-cream">
                 <MessageCircle className="size-4" strokeWidth={1.75} />
               </a>
-              <a href="https://www.instagram.com/looptiestudio?igsh=MTU5NzZkOWQ2bm94ZA==" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="rounded-full border border-cream/20 p-2 text-cream/80 transition-colors duration-300 hover:bg-cream/10 hover:text-burgundy">
+              <a href="https://www.instagram.com/looptiestudio?igsh=MTU5NzZkOWQ2bm94ZA==" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="rounded-full border border-cream/20 p-2 text-cream/80 transition-colors duration-300 hover:bg-cream/10 hover:text-cream">
                 <Instagram className="size-4" strokeWidth={1.75} />
               </a>
             </div>
@@ -741,18 +739,30 @@ function Home() {
           &copy; {new Date().getFullYear()} Loop Ties Studio &middot; Handmade in India
         </div>
       </footer>
-      {/* Floating WhatsApp Button */}
-      <a
-        href="https://wa.me/917842361772"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg transition-all duration-300 hover:scale-110 active:scale-95"
-        aria-label="Chat on WhatsApp"
-      >
-        <svg className="h-8 w-8 fill-current" viewBox="0 0 24 24">
-          <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.588 1.45 5.621 1.451 5.536 0 10.04-4.507 10.04-10.043.002-2.661-1.03-5.166-2.906-7.042C17.527 1.68 15.034.65 12.38.65c-5.543 0-10.046 4.507-10.046 10.046-.002 2.074.542 4.1 1.572 5.864l-.998 3.648 3.738-.98zm11.387-5.464c-.307-.154-1.817-.897-2.097-.999-.28-.102-.484-.154-.686.154-.203.308-.785.999-.962 1.205-.178.205-.355.231-.662.077-.307-.154-1.3-.48-2.476-1.53-1.155-1.03-1.93-2.302-2.158-2.61-.227-.308-.024-.475.129-.628.138-.137.307-.359.461-.539.154-.18.205-.308.307-.513.102-.205.051-.385-.026-.539-.077-.154-.686-1.654-.94-2.267-.247-.595-.503-.513-.686-.523-.178-.008-.382-.01-.587-.01s-.538.077-.82.384c-.282.309-1.077 1.051-1.077 2.564 0 1.513 1.102 2.974 1.256 3.179.154.205 2.167 3.31 5.248 4.64.733.317 1.307.505 1.75.646.737.234 1.408.201 1.94.122.592-.088 1.817-.743 2.072-1.461.254-.718.254-1.333.178-1.461-.077-.128-.282-.205-.589-.359z" />
-        </svg>
-      </a>
+
+      {/* Floating Social Buttons */}
+      <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3 pointer-events-auto">
+        {/* Instagram */}
+        <a
+          href="https://instagram.com/looptiestudio"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex h-12 w-12 items-center justify-center rounded-full bg-cream/10 border border-cream/20 text-[#F4E0A5] backdrop-blur-xl shadow-lg shadow-forest/20 transition-all duration-300 hover:scale-110 hover:bg-gradient-to-tr hover:from-[#f9ce34] hover:via-[#ee2a7b] hover:to-[#6228d7] hover:text-white hover:border-transparent active:scale-95"
+          aria-label="Follow us on Instagram"
+        >
+          <Instagram className="size-5" strokeWidth={2} />
+        </a>
+        {/* WhatsApp */}
+        <a
+          href="https://wa.me/917842361772"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex h-12 w-12 items-center justify-center rounded-full bg-cream/10 border border-cream/20 text-[#F4E0A5] backdrop-blur-xl shadow-lg shadow-forest/20 transition-all duration-300 hover:scale-110 hover:bg-[#25D366] hover:text-white hover:border-transparent active:scale-95"
+          aria-label="Chat on WhatsApp"
+        >
+          <MessageCircle className="size-5" strokeWidth={2} />
+        </a>
+      </div>
     </div>
   );
 }
