@@ -17,10 +17,14 @@ import {
   Leaf,
   HandHeart,
   Camera,
+  Menu,
+  X,
 } from "lucide-react";
+import { useState } from "react";
 
-const LOGO_SRC = "/images/logo/looptie-logo.jpg";
+const LOGO_SRC = "/images/logo/looptie-logo.png";
 const HERO_SRC = "/images/hero/hero-flowers.jpg";
+const WOOL_ICON_SRC = "/images/logo/wool-icon.png";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -28,7 +32,7 @@ export const Route = createFileRoute("/")({
 
 const NAV = [
   { label: "Story", href: "#story" },
-  { label: "Collections", href: "#collections" },
+  { label: "Our Products", href: "#collections" },
   { label: "About", href: "#about" },
   { label: "Gallery", href: "#gallery" },
   { label: "Contact", href: "#contact" },
@@ -93,6 +97,7 @@ const GALLERY = [
 ];
 
 function Home() {
+  const [mobileOpen, setMobileOpen] = useState(false);
   return (
     <div className="min-h-screen bg-forest font-sans text-cream">
       {/* Full-bleed hero */}
@@ -100,14 +105,27 @@ function Home() {
         <img src={HERO_SRC} alt="" className="absolute inset-0 h-full w-full object-cover opacity-60" loading="eager" />
         <div className="absolute inset-0 bg-gradient-to-b from-forest/40 via-forest/60 to-forest" />
 
-        {/* Glass nav */}
-        <nav className="relative z-10">
-          <div className="mx-auto mt-6 flex h-24 max-w-6xl items-center justify-between rounded-full border border-cream/15 bg-cream/10 py-2 pl-5 pr-6 backdrop-blur-xl">
+        {/* Wool + knitting needles watermark (extracted from logo) — centered, original colors */}
+        <div className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center">
+          <img
+            src={WOOL_ICON_SRC}
+            alt=""
+            aria-hidden="true"
+            className="w-[22rem] max-w-[85vw] opacity-30 sm:w-[30rem] md:w-[40rem] md:opacity-40 lg:w-[46rem]"
+          />
+        </div>
+
+
+
+        {/* Floating glass nav */}
+        <nav className="fixed inset-x-0 top-4 z-50 px-4">
+
+          <div className="mx-auto flex h-24 max-w-6xl items-center justify-between rounded-full border border-cream/15 bg-forest/40 py-2 pl-5 pr-4 shadow-2xl shadow-forest/40 backdrop-blur-2xl sm:pr-6">
             <Link to="/" className="flex shrink-0 items-center">
               <img
                 src={LOGO_SRC}
                 alt="LoopTieStudio"
-                className="h-14 w-auto object-contain rounded-[22px] shadow-md shadow-forest/40 sm:h-16 md:h-18"
+                className="h-14 w-auto object-contain sm:h-16 md:h-18"
               />
             </Link>
 
@@ -123,27 +141,52 @@ function Home() {
               Enquire <ArrowUpRight className="size-3.5" />
             </a>
 
-
+            <button
+              type="button"
+              aria-label={mobileOpen ? "Close menu" : "Open menu"}
+              aria-expanded={mobileOpen}
+              onClick={() => setMobileOpen((v) => !v)}
+              className="inline-flex size-11 shrink-0 items-center justify-center rounded-full border border-cream/25 bg-cream/5 text-cream/90 backdrop-blur-xl transition hover:bg-cream/10 md:hidden"
+            >
+              {mobileOpen ? <X className="size-5" /> : <Menu className="size-5" />}
+            </button>
           </div>
+
+          {mobileOpen && (
+            <div className="mx-auto mt-3 max-w-6xl overflow-hidden rounded-3xl border border-cream/15 bg-forest/80 shadow-2xl shadow-forest/40 backdrop-blur-2xl md:hidden">
+              <div className="flex flex-col p-3">
+                {NAV.map((l) => (
+                  <a
+                    key={l.label}
+                    href={l.href}
+                    onClick={() => setMobileOpen(false)}
+                    className="rounded-2xl px-4 py-3 text-xs uppercase tracking-widest text-cream/85 transition hover:bg-cream/10 hover:text-cream"
+                  >
+                    {l.label}
+                  </a>
+                ))}
+                <a
+                  href="#contact"
+                  onClick={() => setMobileOpen(false)}
+                  className="mt-2 inline-flex items-center justify-center gap-2 rounded-full border border-cream/25 bg-cream/5 px-4 py-3 text-[11px] uppercase tracking-widest text-cream/90 transition hover:bg-cream/10"
+                >
+                  Enquire <ArrowUpRight className="size-3.5" />
+                </a>
+              </div>
+            </div>
+          )}
         </nav>
 
+
+
         {/* Hero content */}
-        <div className="relative z-10 mx-auto flex min-h-[calc(100vh-6rem)] max-w-6xl flex-col justify-center px-6">
-          <div className="inline-flex w-fit items-center gap-2 rounded-full border border-cream/20 bg-cream/5 px-4 py-1.5 text-[11px] uppercase tracking-widest backdrop-blur-xl">
-            <Sparkles className="size-3" /> A father-daughter atelier · Est. India
-          </div>
-          <h1 className="mt-8 max-w-4xl font-serif text-6xl leading-[0.95] tracking-tight md:text-8xl">
-            Handcrafted<br />
-            crochet &amp; art,<br />
-            <span className="italic text-cream/70">stitched with intention.</span>
+        <div className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col justify-center px-6 pt-32">
+          <h1 className="max-w-4xl font-serif text-6xl leading-[0.95] tracking-tight md:text-8xl">
+            Handcrafted & Customized <span className="italic text-cream/70">Artwork from Artizens Across India</span>
           </h1>
-          <p className="mt-8 max-w-xl text-lg text-cream/80">
-            A father-daughter crochet atelier. Explore our handmade collections and get in touch to commission
-            something one-of-a-kind.
-          </p>
           <div className="mt-12 flex flex-wrap gap-4">
             <a href="#collections" className="rounded-full bg-burgundy px-10 py-4 text-sm font-medium uppercase tracking-widest text-cream shadow-2xl shadow-burgundy/40 transition-transform hover:scale-105">
-              View Collection
+              View Our Products
             </a>
             <a href="#contact" className="rounded-full border border-cream/30 bg-cream/5 px-10 py-4 text-sm font-medium uppercase tracking-widest backdrop-blur-xl hover:bg-cream/10">
               Enquire Now
@@ -155,11 +198,11 @@ function Home() {
         <div className="absolute bottom-10 right-10 z-10 hidden rounded-3xl border border-cream/20 bg-cream/10 p-6 backdrop-blur-2xl md:block">
           <div className="flex gap-6 text-sm">
             <div className="flex items-center gap-3">
-              <HandHeart className="size-5 text-burgundy" strokeWidth={1.75} />
+              <HandHeart className="size-5 text-cream/90" strokeWidth={1.75} />
               <div className="font-serif text-base leading-tight">100% Handmade<br /><span className="text-xs uppercase tracking-widest text-cream/60">with care</span></div>
             </div>
             <div className="flex items-center gap-3">
-              <Leaf className="size-5 text-burgundy" strokeWidth={1.75} />
+              <Leaf className="size-5 text-cream/90" strokeWidth={1.75} />
               <div className="font-serif text-base leading-tight">Proudly Made<br /><span className="text-xs uppercase tracking-widest text-cream/60">in India</span></div>
             </div>
           </div>
@@ -178,7 +221,7 @@ function Home() {
             ].map(({ icon: Icon, title, body }) => (
               <div key={title} className="group rounded-3xl border border-cream/15 bg-cream/5 p-6 backdrop-blur-xl transition-transform hover:-translate-y-1">
                 <div className="flex size-12 items-center justify-center rounded-2xl border border-cream/15 bg-cream/5">
-                  <Icon className="size-5 text-burgundy" strokeWidth={1.75} />
+                  <Icon className="size-5 text-cream/90" strokeWidth={1.75} />
                 </div>
                 <h3 className="mt-5 font-serif text-lg leading-snug">{title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-cream/70">{body}</p>
@@ -191,8 +234,8 @@ function Home() {
       {/* Our Story */}
       <section id="story" className="relative px-6 py-28 md:py-36">
         <div className="mx-auto max-w-3xl">
-          <div className="flex items-center gap-3 text-[11px] uppercase tracking-widest text-burgundy">
-            <span className="h-px w-8 bg-burgundy/60" />
+          <div className="flex items-center gap-3 text-[11px] uppercase tracking-widest text-cream/90">
+            <span className="h-px w-8 bg-cream/40" />
             Our Story
           </div>
           <h2 className="mt-6 font-serif text-5xl leading-[1.05] tracking-tight md:text-6xl">
@@ -261,8 +304,8 @@ function Home() {
       <section id="about" className="relative border-t border-cream/10 px-6 py-28 md:py-36">
         <div className="mx-auto max-w-6xl">
           <div className="max-w-3xl">
-            <div className="flex items-center gap-3 text-[11px] uppercase tracking-widest text-burgundy">
-              <span className="h-px w-8 bg-burgundy/60" />
+            <div className="flex items-center gap-3 text-[11px] uppercase tracking-widest text-cream/90">
+              <span className="h-px w-8 bg-cream/40" />
               About Us
             </div>
             <h2 className="mt-6 font-serif text-5xl leading-[1.05] tracking-tight md:text-6xl">
@@ -272,7 +315,7 @@ function Home() {
 
           <div className="mt-16 grid gap-6 md:grid-cols-3">
             <div className="rounded-3xl border border-cream/15 bg-cream/5 p-8 backdrop-blur-xl transition-transform hover:-translate-y-1">
-              <Scissors className="size-6 text-burgundy" strokeWidth={1.75} />
+              <Scissors className="size-6 text-cream/90" strokeWidth={1.75} />
               <h3 className="mt-6 font-serif text-2xl">The Creative</h3>
               <p className="mt-4 text-sm leading-relaxed text-cream/75">
                 My daughter designs and hand-crochets every product in our collection — amigurumi, accessories,
@@ -281,7 +324,7 @@ function Home() {
               </p>
             </div>
             <div className="rounded-3xl border border-cream/15 bg-cream/5 p-8 backdrop-blur-xl transition-transform hover:-translate-y-1">
-              <Briefcase className="size-6 text-burgundy" strokeWidth={1.75} />
+              <Briefcase className="size-6 text-cream/90" strokeWidth={1.75} />
               <h3 className="mt-6 font-serif text-2xl">The Operator</h3>
               <p className="mt-4 text-sm leading-relaxed text-cream/75">
                 Dad manages everything behind the scenes — pricing, sourcing materials, order fulfillment, and
@@ -290,7 +333,7 @@ function Home() {
               </p>
             </div>
             <div className="rounded-3xl border border-cream/15 bg-cream/5 p-8 backdrop-blur-xl transition-transform hover:-translate-y-1">
-              <Palette className="size-6 text-burgundy" strokeWidth={1.75} />
+              <Palette className="size-6 text-cream/90" strokeWidth={1.75} />
               <h3 className="mt-6 font-serif text-2xl">Growing Beyond Crochet</h3>
               <p className="mt-4 text-sm leading-relaxed text-cream/75">
                 We&apos;re building a curated platform for talented independent creators and makers who share
@@ -302,8 +345,8 @@ function Home() {
           </div>
 
           <div className="mt-24">
-            <div className="flex items-center gap-3 text-[11px] uppercase tracking-widest text-burgundy">
-              <span className="h-px w-8 bg-burgundy/60" />
+            <div className="flex items-center gap-3 text-[11px] uppercase tracking-widest text-cream/90">
+              <span className="h-px w-8 bg-cream/40" />
               What We Believe
             </div>
             <h3 className="mt-6 max-w-3xl font-serif text-4xl leading-tight md:text-5xl">
@@ -320,7 +363,7 @@ function Home() {
                   <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-burgundy/10 blur-2xl transition-opacity group-hover:opacity-100" />
                   <div className="relative">
                     <div className="flex size-12 items-center justify-center rounded-2xl border border-cream/15 bg-cream/5">
-                      <Icon className="size-5 text-burgundy" strokeWidth={1.75} />
+                      <Icon className="size-5 text-cream/90" strokeWidth={1.75} />
                     </div>
                     <h4 className="mt-6 font-serif text-xl leading-snug">{title}</h4>
                     <p className="mt-4 text-sm leading-relaxed text-cream/70">{body}</p>
@@ -331,7 +374,7 @@ function Home() {
           </div>
 
           <div className="mt-24 overflow-hidden rounded-[2rem] border border-cream/15 bg-gradient-to-br from-burgundy/25 via-forest to-forest p-10 md:p-16">
-            <div className="flex items-center gap-3 text-[11px] uppercase tracking-widest text-burgundy">
+            <div className="flex items-center gap-3 text-[11px] uppercase tracking-widest text-cream/90">
               <MapPin className="size-3.5" strokeWidth={2} />
               The Studio
             </div>
@@ -351,9 +394,9 @@ function Home() {
         <div className="mx-auto max-w-6xl">
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div className="max-w-2xl">
-              <div className="flex items-center gap-3 text-[11px] uppercase tracking-widest text-burgundy">
-                <span className="h-px w-8 bg-burgundy/60" />
-                Collections
+              <div className="flex items-center gap-3 text-[11px] uppercase tracking-widest text-cream/90">
+                <span className="h-px w-8 bg-cream/40" />
+                Our Products
               </div>
               <h2 className="mt-6 font-serif text-5xl leading-[1.05] tracking-tight md:text-6xl">
                 A portfolio of pieces, <span className="italic text-cream/70">not a storefront.</span>
@@ -368,8 +411,16 @@ function Home() {
             </a>
           </div>
 
-          <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {COLLECTIONS.map((c) => (
+          {(() => {
+            const crochet = COLLECTIONS.filter((p) => p.label.toLowerCase() !== "paintings");
+            const paintings = COLLECTIONS.filter((p) => p.label.toLowerCase() === "paintings");
+            const groups = crochet.reduce<Record<string, typeof COLLECTIONS>>((acc, p) => {
+              (acc[p.label] ||= []).push(p);
+              return acc;
+            }, {});
+            const groupOrder = Array.from(new Set(crochet.map((p) => p.label)));
+
+            const Card = ({ c }: { c: (typeof COLLECTIONS)[number] }) => (
               <div key={c.name} className="group relative overflow-hidden rounded-3xl border border-cream/15 bg-cream/5 transition-transform duration-500 hover:-translate-y-1">
                 <div className={`relative aspect-[4/5] w-full overflow-hidden bg-gradient-to-br ${c.tint}`}>
                   <img
@@ -388,13 +439,81 @@ function Home() {
                 <div className="p-6">
                   <h3 className="font-serif text-xl leading-snug">{c.name}</h3>
                   <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-cream/70">{c.desc}</p>
-                  <a href="#contact" className="mt-5 inline-flex items-center gap-1.5 text-[11px] uppercase tracking-widest text-burgundy transition group-hover:gap-2.5">
+                  <a href="#contact" className="mt-5 inline-flex items-center gap-1.5 text-[11px] uppercase tracking-widest text-cream/90 transition group-hover:gap-2.5">
                     View Collection <ArrowUpRight className="size-3.5" />
                   </a>
                 </div>
               </div>
-            ))}
-          </div>
+            );
+
+            return (
+              <>
+                {/* Crochet */}
+                <div className="mt-20">
+                  <div className="flex items-end justify-between gap-4 border-b border-cream/15 pb-4">
+                    <h3 className="font-serif text-3xl md:text-4xl">Crochet</h3>
+                    <span className="text-[11px] uppercase tracking-widest text-cream/60">{crochet.length} pieces</span>
+                  </div>
+                  <div className="mt-10 space-y-16">
+                    {groupOrder.map((label) => (
+                      <div key={label}>
+                        <div className="mb-6 flex items-center gap-3 text-[11px] uppercase tracking-widest text-cream/80">
+                          <span className="h-px w-6 bg-cream/40" />
+                          <span>{label}</span>
+                          <span className="text-cream/40">· {groups[label].length}</span>
+                        </div>
+                        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                          {groups[label].map((c) => <Card key={c.name} c={c} />)}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Paintings */}
+                <div className="mt-24">
+                  <div className="flex items-end justify-between gap-4 border-b border-cream/15 pb-4">
+                    <h3 className="font-serif text-3xl md:text-4xl">Paintings</h3>
+                    <span className="text-[11px] uppercase tracking-widest text-cream/60">
+                      {paintings.length > 0 ? `${paintings.length} pieces` : "Coming soon"}
+                    </span>
+                  </div>
+                  {paintings.length > 0 ? (
+                    <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                      {paintings.map((c) => <Card key={c.name} c={c} />)}
+                    </div>
+                  ) : (
+                    <div className="mt-10 overflow-hidden rounded-3xl border border-cream/15 bg-cream/5">
+                      <div className="grid gap-0 md:grid-cols-2">
+                        <div className="relative aspect-[4/3] md:aspect-auto">
+                          <img
+                            src="/images/gallery/paintings.jpg"
+                            alt="Paintings in progress"
+                            loading="lazy"
+                            className="absolute inset-0 h-full w-full object-cover"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-forest/70 via-transparent to-transparent" />
+                        </div>
+                        <div className="flex flex-col justify-center gap-5 p-8 md:p-12">
+                          <div className="text-[11px] uppercase tracking-widest text-cream/70">A new chapter</div>
+                          <h4 className="font-serif text-2xl leading-snug md:text-3xl">
+                            Original paintings, arriving soon.
+                          </h4>
+                          <p className="text-cream/70">
+                            We&rsquo;re quietly building a small collection of original paintings alongside the crochet work.
+                            Message us to be the first to see new pieces or to commission one.
+                          </p>
+                          <a href="#contact" className="inline-flex w-fit items-center gap-2 rounded-full border border-cream/25 bg-cream/5 px-5 py-2.5 text-[11px] uppercase tracking-widest hover:bg-cream/10">
+                            Enquire About Paintings <ArrowUpRight className="size-3.5" />
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </>
+            );
+          })()}
         </div>
       </section>
 
@@ -403,8 +522,8 @@ function Home() {
       <section id="gallery" className="relative border-t border-cream/10 px-6 py-28 md:py-36">
         <div className="mx-auto max-w-6xl">
           <div className="max-w-2xl">
-            <div className="flex items-center gap-3 text-[11px] uppercase tracking-widest text-burgundy">
-              <span className="h-px w-8 bg-burgundy/60" />
+            <div className="flex items-center gap-3 text-[11px] uppercase tracking-widest text-cream/90">
+              <span className="h-px w-8 bg-cream/40" />
               Gallery
             </div>
             <h2 className="mt-6 font-serif text-5xl leading-[1.05] tracking-tight md:text-6xl">
@@ -442,8 +561,8 @@ function Home() {
       <section id="contact" className="relative border-t border-cream/10 px-6 py-28 md:py-36">
         <div className="mx-auto max-w-6xl">
           <div className="max-w-2xl">
-            <div className="flex items-center gap-3 text-[11px] uppercase tracking-widest text-burgundy">
-              <span className="h-px w-8 bg-burgundy/60" />
+            <div className="flex items-center gap-3 text-[11px] uppercase tracking-widest text-cream/90">
+              <span className="h-px w-8 bg-cream/40" />
               Get in Touch
             </div>
             <h2 className="mt-6 font-serif text-5xl leading-[1.05] tracking-tight md:text-6xl">
@@ -458,14 +577,14 @@ function Home() {
           <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             <a href="https://wa.me/917842361772" target="_blank" rel="noopener noreferrer" className="group relative overflow-hidden rounded-3xl border border-cream/15 bg-cream/5 p-8 backdrop-blur-xl transition-all hover:-translate-y-1 hover:border-burgundy/40">
               <div className="flex size-12 items-center justify-center rounded-2xl border border-cream/15 bg-cream/5">
-                <MessageCircle className="size-5 text-burgundy" strokeWidth={1.75} />
+                <MessageCircle className="size-5 text-cream/90" strokeWidth={1.75} />
               </div>
               <h3 className="mt-6 font-serif text-2xl">WhatsApp</h3>
               <p className="mt-3 text-sm leading-relaxed text-cream/70">
                 The fastest way to reach the studio. Send us a note, a reference, or a question.
               </p>
-              <div className="mt-6 flex min-w-0 items-center gap-2 text-sm font-medium tracking-wide text-cream transition-colors duration-300 group-hover:text-burgundy">
-                <span className="min-w-0 break-words border-b border-burgundy/0 pb-0.5 transition-colors duration-300 group-hover:border-burgundy">
+              <div className="mt-6 flex min-w-0 items-center gap-2 text-sm font-medium tracking-wide text-cream transition-colors duration-300">
+                <span className="min-w-0 break-words border-b border-burgundy/0 pb-0.5 transition-colors duration-300">
                   +91 78423 61772
                 </span>
                 <ArrowUpRight className="size-4 shrink-0" />
@@ -473,14 +592,14 @@ function Home() {
             </a>
             <a href="tel:+917842361772" className="group relative overflow-hidden rounded-3xl border border-cream/15 bg-cream/5 p-8 backdrop-blur-xl transition-all hover:-translate-y-1 hover:border-burgundy/40">
               <div className="flex size-12 items-center justify-center rounded-2xl border border-cream/15 bg-cream/5">
-                <Phone className="size-5 text-burgundy" strokeWidth={1.75} />
+                <Phone className="size-5 text-cream/90" strokeWidth={1.75} />
               </div>
               <h3 className="mt-6 font-serif text-2xl">Phone</h3>
               <p className="mt-3 text-sm leading-relaxed text-cream/70">
                 Prefer to talk? Give us a call &mdash; we&apos;re happy to help with commissions and orders.
               </p>
-              <div className="mt-6 flex min-w-0 items-center gap-2 text-sm font-medium tracking-wide text-cream transition-colors duration-300 group-hover:text-burgundy">
-                <span className="min-w-0 break-words border-b border-burgundy/0 pb-0.5 transition-colors duration-300 group-hover:border-burgundy">
+              <div className="mt-6 flex min-w-0 items-center gap-2 text-sm font-medium tracking-wide text-cream transition-colors duration-300">
+                <span className="min-w-0 break-words border-b border-burgundy/0 pb-0.5 transition-colors duration-300">
                   +91 78423 61772
                 </span>
                 <ArrowUpRight className="size-4 shrink-0" />
@@ -488,14 +607,14 @@ function Home() {
             </a>
             <a href="https://www.instagram.com/looptiestudio?igsh=MTU5NzZkOWQ2bm94ZA==" target="_blank" rel="noopener noreferrer" className="group relative overflow-hidden rounded-3xl border border-cream/15 bg-cream/5 p-8 backdrop-blur-xl transition-all hover:-translate-y-1 hover:border-burgundy/40">
               <div className="flex size-12 items-center justify-center rounded-2xl border border-cream/15 bg-cream/5">
-                <Instagram className="size-5 text-burgundy" strokeWidth={1.75} />
+                <Instagram className="size-5 text-cream/90" strokeWidth={1.75} />
               </div>
               <h3 className="mt-6 font-serif text-2xl">Instagram</h3>
               <p className="mt-3 text-sm leading-relaxed text-cream/70">
                 See work in progress, new drops, and quiet moments from the atelier.
               </p>
-              <div className="mt-6 flex min-w-0 items-center gap-2 text-sm font-medium tracking-wide text-cream transition-colors duration-300 group-hover:text-burgundy">
-                <span className="min-w-0 break-words border-b border-burgundy/0 pb-0.5 transition-colors duration-300 group-hover:border-burgundy">
+              <div className="mt-6 flex min-w-0 items-center gap-2 text-sm font-medium tracking-wide text-cream transition-colors duration-300">
+                <span className="min-w-0 break-words border-b border-burgundy/0 pb-0.5 transition-colors duration-300">
                   @looptiestudio
                 </span>
                 <ArrowUpRight className="size-4 shrink-0" />
@@ -503,15 +622,15 @@ function Home() {
             </a>
             <a href="mailto:looptiestudio@gmail.com" className="group relative overflow-hidden rounded-3xl border border-cream/15 bg-cream/5 p-8 backdrop-blur-xl transition-all hover:-translate-y-1 hover:border-burgundy/40">
               <div className="flex size-12 items-center justify-center rounded-2xl border border-cream/15 bg-cream/5">
-                <Mail className="size-5 text-burgundy" strokeWidth={1.75} />
+                <Mail className="size-5 text-cream/90" strokeWidth={1.75} />
               </div>
               <h3 className="mt-6 font-serif text-2xl">Email</h3>
               <p className="mt-3 text-sm leading-relaxed text-cream/70">
                 For commissions, collaborations, and press &mdash; write to us and we&apos;ll get back within a
                 day or two.
               </p>
-              <div className="mt-6 flex min-w-0 items-center gap-2 text-sm font-medium tracking-wide text-cream transition-colors duration-300 group-hover:text-burgundy">
-                <span className="min-w-0 break-words border-b border-burgundy/0 pb-0.5 transition-colors duration-300 group-hover:border-burgundy">
+              <div className="mt-6 flex min-w-0 items-center gap-2 text-sm font-medium tracking-wide text-cream transition-colors duration-300">
+                <span className="min-w-0 break-words border-b border-burgundy/0 pb-0.5 transition-colors duration-300">
                   looptiestudio@gmail.com
                 </span>
                 <ArrowUpRight className="size-4 shrink-0" />
@@ -526,15 +645,11 @@ function Home() {
       <footer className="bg-forest px-6 py-16 text-cream/80">
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 md:grid-cols-4">
           <div>
-            <div className="flex items-center gap-3">
-              <img src={LOGO_SRC} alt="" className="h-14 w-auto object-contain rounded-2xl" />
-              <span className="font-serif text-xl text-cream">Loop Ties Studio</span>
-
-            </div>
+            <img src={LOGO_SRC} alt="LoopTieStudio" className="h-16 w-auto object-contain" />
             <p className="mt-4 text-sm text-cream/60">A father-daughter atelier &mdash; slow, handmade, and quietly curated.</p>
           </div>
           <div>
-            <div className="text-[11px] uppercase tracking-widest text-burgundy">Explore</div>
+            <div className="text-[11px] uppercase tracking-widest text-cream/90">Explore</div>
             <ul className="mt-4 space-y-2 text-sm">
               {NAV.map((l) => (
                 <li key={l.label}><a href={l.href} className="hover:text-cream">{l.label}</a></li>
@@ -542,25 +657,25 @@ function Home() {
             </ul>
           </div>
           <div>
-            <div className="text-[11px] uppercase tracking-widest text-burgundy">Studio</div>
+            <div className="text-[11px] uppercase tracking-widest text-cream/90">Studio</div>
             <ul className="mt-4 space-y-2 text-sm">
               <li>
                 <a href="mailto:looptiestudio@gmail.com" className="group inline-flex min-w-0 items-center font-medium text-cream/90 transition-colors duration-300 hover:text-cream">
-                  <span className="min-w-0 break-words border-b border-burgundy/0 pb-0.5 transition-colors duration-300 group-hover:border-burgundy/80">
+                  <span className="min-w-0 break-words border-b border-burgundy/0 pb-0.5 transition-colors duration-300">
                     looptiestudio@gmail.com
                   </span>
                 </a>
               </li>
               <li>
                 <a href="tel:+917842361772" className="group inline-flex min-w-0 items-center font-medium text-cream/90 transition-colors duration-300 hover:text-cream">
-                  <span className="min-w-0 break-words border-b border-burgundy/0 pb-0.5 transition-colors duration-300 group-hover:border-burgundy/80">
+                  <span className="min-w-0 break-words border-b border-burgundy/0 pb-0.5 transition-colors duration-300">
                     +91 78423 61772
                   </span>
                 </a>
               </li>
               <li>
                 <a href="https://wa.me/917842361772" target="_blank" rel="noopener noreferrer" className="group inline-flex min-w-0 items-center font-medium text-cream/90 transition-colors duration-300 hover:text-cream">
-                  <span className="min-w-0 break-words border-b border-burgundy/0 pb-0.5 transition-colors duration-300 group-hover:border-burgundy/80">
+                  <span className="min-w-0 break-words border-b border-burgundy/0 pb-0.5 transition-colors duration-300">
                     WhatsApp: +91 78423 61772
                   </span>
                 </a>
@@ -569,18 +684,18 @@ function Home() {
             </ul>
           </div>
           <div>
-            <div className="text-[11px] uppercase tracking-widest text-burgundy">Follow</div>
+            <div className="text-[11px] uppercase tracking-widest text-cream/90">Follow</div>
             <div className="mt-4 flex gap-3">
-              <a href="mailto:looptiestudio@gmail.com" aria-label="Email" className="rounded-full border border-cream/20 p-2 text-cream/80 transition-colors duration-300 hover:bg-cream/10 hover:text-burgundy">
+              <a href="mailto:looptiestudio@gmail.com" aria-label="Email" className="rounded-full border border-cream/20 p-2 text-cream/80 transition-colors duration-300 hover:bg-cream/10 hover:text-cream/90">
                 <Mail className="size-4" strokeWidth={1.75} />
               </a>
-              <a href="tel:+917842361772" aria-label="Phone" className="rounded-full border border-cream/20 p-2 text-cream/80 transition-colors duration-300 hover:bg-cream/10 hover:text-burgundy">
+              <a href="tel:+917842361772" aria-label="Phone" className="rounded-full border border-cream/20 p-2 text-cream/80 transition-colors duration-300 hover:bg-cream/10 hover:text-cream/90">
                 <Phone className="size-4" strokeWidth={1.75} />
               </a>
-              <a href="https://wa.me/917842361772" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" className="rounded-full border border-cream/20 p-2 text-cream/80 transition-colors duration-300 hover:bg-cream/10 hover:text-burgundy">
+              <a href="https://wa.me/917842361772" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" className="rounded-full border border-cream/20 p-2 text-cream/80 transition-colors duration-300 hover:bg-cream/10 hover:text-cream/90">
                 <MessageCircle className="size-4" strokeWidth={1.75} />
               </a>
-              <a href="https://www.instagram.com/looptiestudio?igsh=MTU5NzZkOWQ2bm94ZA==" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="rounded-full border border-cream/20 p-2 text-cream/80 transition-colors duration-300 hover:bg-cream/10 hover:text-burgundy">
+              <a href="https://www.instagram.com/looptiestudio?igsh=MTU5NzZkOWQ2bm94ZA==" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="rounded-full border border-cream/20 p-2 text-cream/80 transition-colors duration-300 hover:bg-cream/10 hover:text-cream/90">
                 <Instagram className="size-4" strokeWidth={1.75} />
               </a>
             </div>
@@ -591,6 +706,28 @@ function Home() {
           &copy; {new Date().getFullYear()} Loop Ties Studio &middot; Handmade in India
         </div>
       </footer>
+
+      {/* Floating social buttons */}
+      <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
+        <a
+          href="https://wa.me/917842361772"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="WhatsApp"
+          className="group flex size-12 items-center justify-center rounded-full border border-cream/20 bg-forest/80 text-cream shadow-xl shadow-forest/40 backdrop-blur-xl transition-all duration-300 hover:scale-110 hover:bg-burgundy hover:shadow-2xl hover:shadow-burgundy/40"
+        >
+          <MessageCircle className="size-5 transition-transform duration-300 group-hover:rotate-6" strokeWidth={1.75} />
+        </a>
+        <a
+          href="https://instagram.com/looptiestudio"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Instagram"
+          className="group flex size-12 items-center justify-center rounded-full border border-cream/20 bg-forest/80 text-cream shadow-xl shadow-forest/40 backdrop-blur-xl transition-all duration-300 hover:scale-110 hover:bg-burgundy hover:shadow-2xl hover:shadow-burgundy/40"
+        >
+          <Instagram className="size-5 transition-transform duration-300 group-hover:rotate-6" strokeWidth={1.75} />
+        </a>
+      </div>
     </div>
   );
 }
