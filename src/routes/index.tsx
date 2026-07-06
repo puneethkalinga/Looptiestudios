@@ -22,7 +22,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 
-const LOGO_SRC = "/images/logo/looptie-logo.png?v=2";
+const LOGO_SRC = "/images/logo/looptie-logo-clean.png";
 const HERO_SRC = "/images/hero/hero-flowers.jpg";
 const WOOL_ICON_SRC = "/images/logo/wool-icon.png";
 
