@@ -86,17 +86,14 @@ const COLLECTIONS_RAW: { name: string; category: "Crochets" | "Paintings"; subca
   { name: "Kitty Fingertip Charm", category: "Crochets", subcategory: "Crochet Toys", desc: "A tiny fingertip-sized cream kitten with a red bow." },
   // Paintings
   { name: "A Forest Symphony", category: "Paintings", subcategory: "Paintings", desc: "Original textured acrylic canvas art showing details of leaves and natural textures." },
-  { name: "Wildflowers & Meadows", category: "Paintings", subcategory: "Paintings", desc: "Vibrant and structured palette knife floral paintings done on premium paper." },
-  { name: "More paintings coming soon...", category: "Paintings", subcategory: "Paintings", desc: "We are quietly building a small collection of original paintings alongside the crochet work. Enquire to commission a custom canvas.", isComingSoon: true }
+  { name: "Wildflowers & Meadows", category: "Paintings", subcategory: "Paintings", desc: "Vibrant and structured palette knife floral paintings done on premium paper." }
 ];
 
-const COLLECTIONS: { name: string; category: "Crochets" | "Paintings"; subcategory: string; desc: string; tint: string; img: string; isComingSoon?: boolean }[] = COLLECTIONS_RAW.map((p, i) => {
+const COLLECTIONS: { name: string; category: "Crochets" | "Paintings"; subcategory: string; desc: string; tint: string; img: string }[] = COLLECTIONS_RAW.map((p, i) => {
   const isPainting = p.category === "Paintings";
-  const imgUrl = 'isComingSoon' in p && p.isComingSoon
-    ? "/images/gallery/atelier.jpg"
-    : isPainting 
-      ? (p.name === "A Forest Symphony" ? "/images/gallery/paintings.jpg" : "/images/gallery/handmade-crafts.jpg")
-      : `/images/products/product-${String(i + 1).padStart(2, "0")}.jpg`;
+  const imgUrl = isPainting 
+    ? (p.name === "A Forest Symphony" ? "/images/gallery/paintings.jpg" : "/images/gallery/handmade-crafts.jpg")
+    : `/images/products/product-${String(i + 1).padStart(2, "0")}.jpg`;
   return { ...p, tint: TINTS[i % TINTS.length], img: imgUrl };
 });
 
@@ -488,48 +485,32 @@ function Home() {
             );
 
             return (
-              <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4 animate-in fade-in duration-300">
-                {filteredItems.map((c) => {
-                  const isComingSoon = 'isComingSoon' in c && c.isComingSoon;
-                  return (
+              <div className="mt-10">
+                <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 animate-in fade-in duration-300">
+                  {filteredItems.map((c) => (
                     <div
                       key={c.name}
                       className="group relative overflow-hidden rounded-3xl border border-cream/15 bg-cream/5 transition-transform duration-500 hover:-translate-y-1"
                     >
                       <div 
-                        className={`relative aspect-[4/5] w-full overflow-hidden bg-gradient-to-br ${c.tint} ${!isComingSoon ? 'cursor-pointer' : ''}`}
+                        className="relative aspect-[4/5] w-full overflow-hidden bg-gradient-to-br from-forest to-burgundy/30 cursor-pointer"
                         onClick={() => {
-                          if (!isComingSoon) {
-                            // Filter out coming soon items from the lightbox slideshow
-                            const slideItems = filteredItems.filter(item => !('isComingSoon' in item && item.isComingSoon));
-                            setLightboxItems(slideItems);
-                            setLightboxIndex(slideItems.findIndex(item => item.name === c.name));
-                          }
+                          setLightboxItems(filteredItems);
+                          setLightboxIndex(filteredItems.findIndex(item => item.name === c.name));
                         }}
                       >
-                        {!isComingSoon ? (
-                          <>
-                            <img
-                              src={c.img}
-                              alt={c.name}
-                              loading="lazy"
-                              className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-forest/85 via-forest/25 to-transparent" />
-                            <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(128,0,32,0.35),transparent_55%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                            <div className="absolute left-5 top-5 rounded-full border border-cream/25 bg-forest/50 px-3 py-1 text-[10px] uppercase tracking-widest text-cream/85 backdrop-blur">
-                              {c.subcategory}
-                            </div>
-                            <Flower2 className="absolute bottom-5 right-5 size-8 text-cream/60 transition-transform duration-500 group-hover:rotate-12" strokeWidth={1.25} />
-                          </>
-                        ) : (
-                          <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center bg-forest/80">
-                            <Palette className="size-10 text-[#F4E0A5]/80 animate-pulse" strokeWidth={1.25} />
-                            <span className="mt-4 text-[10px] font-semibold uppercase tracking-widest text-[#F4E0A5]">
-                              Coming Soon
-                            </span>
-                          </div>
-                        )}
+                        <img
+                          src={c.img}
+                          alt={c.name}
+                          loading="lazy"
+                          className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-forest/85 via-forest/25 to-transparent" />
+                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(128,0,32,0.35),transparent_55%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                        <div className="absolute left-5 top-5 rounded-full border border-cream/25 bg-forest/50 px-3 py-1 text-[10px] uppercase tracking-widest text-cream/85 backdrop-blur">
+                          {c.subcategory}
+                        </div>
+                        <Flower2 className="absolute bottom-5 right-5 size-8 text-cream/60 transition-transform duration-500 group-hover:rotate-12" strokeWidth={1.25} />
                       </div>
                       <div className="p-6">
                         <h3 className="font-serif text-xl leading-snug">{c.name}</h3>
@@ -538,12 +519,17 @@ function Home() {
                           href="#contact"
                           className="mt-5 inline-flex items-center gap-1.5 text-[11px] uppercase tracking-widest text-cream/90 transition group-hover:gap-2.5"
                         >
-                          {isComingSoon ? "Enquire Now" : "View Collection"} <ArrowUpRight className="size-3.5" />
+                          View Collection <ArrowUpRight className="size-3.5" />
                         </a>
                       </div>
                     </div>
-                  );
-                })}
+                  ))}
+                </div>
+                {inlineCategory === "Paintings" && (
+                  <p className="mt-12 text-center font-serif text-lg italic text-[#F4E0A5]/85 animate-in fade-in duration-500">
+                    More paintings coming soon...
+                  </p>
+                )}
               </div>
             );
           })()}
@@ -832,60 +818,48 @@ function Home() {
                 );
 
                 return (
-                  <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                    {filteredItems.map((c) => {
-                      const isComingSoon = 'isComingSoon' in c && c.isComingSoon;
-                      return (
+                  <div>
+                    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                      {filteredItems.map((c) => (
                         <div
                           key={c.name}
                           className="group relative overflow-hidden rounded-2xl border border-cream/10 bg-cream/5 transition-all duration-300 hover:border-cream/20"
                         >
                           <div 
-                            className={`relative aspect-[4/5] w-full overflow-hidden bg-gradient-to-br ${c.tint} ${!isComingSoon ? 'cursor-pointer' : ''}`}
+                            className="relative aspect-[4/5] w-full overflow-hidden bg-gradient-to-br from-forest to-burgundy/30 cursor-pointer"
                             onClick={() => {
-                              if (!isComingSoon) {
-                                // Filter out coming soon items from the lightbox slideshow
-                                const slideItems = filteredItems.filter(item => !('isComingSoon' in item && item.isComingSoon));
-                                setLightboxItems(slideItems);
-                                setLightboxIndex(slideItems.findIndex(item => item.name === c.name));
-                              }
+                              setLightboxItems(filteredItems);
+                              setLightboxIndex(filteredItems.findIndex(item => item.name === c.name));
                             }}
                           >
-                            {!isComingSoon ? (
-                              <>
-                                <img
-                                  src={c.img}
-                                  alt={c.name}
-                                  loading="lazy"
-                                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-forest/80 via-transparent to-transparent" />
-                              </>
-                            ) : (
-                              <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-center bg-forest/80">
-                                <Palette className="size-8 text-[#F4E0A5]/80" strokeWidth={1.25} />
-                                <span className="mt-3 text-[10px] font-semibold uppercase tracking-widest text-[#F4E0A5]">
-                                  Coming Soon
-                                </span>
-                              </div>
-                            )}
+                            <img
+                              src={c.img}
+                              alt={c.name}
+                              loading="lazy"
+                              className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-forest/80 via-transparent to-transparent" />
                           </div>
                           <div className="p-5">
                             <h3 className="font-serif text-lg leading-snug">{c.name}</h3>
                             <p className="mt-1.5 line-clamp-2 text-xs leading-relaxed text-cream/70">{c.desc}</p>
                             <a
-                              href={isComingSoon ? "#contact" : "https://wa.me/917842361772"}
-                              target={isComingSoon ? undefined : "_blank"}
-                              rel={isComingSoon ? undefined : "noopener noreferrer"}
-                              onClick={isComingSoon ? () => setIsModalOpen(false) : undefined}
+                              href="https://wa.me/917842361772"
+                              target="_blank"
+                              rel="noopener noreferrer"
                               className="mt-4 inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-widest text-[#F4E0A5] hover:text-cream transition-colors"
                             >
-                              {isComingSoon ? "Enquire Now" : "Enquire on WhatsApp"} <ArrowUpRight className="size-3" />
+                              Enquire on WhatsApp <ArrowUpRight className="size-3" />
                             </a>
                           </div>
                         </div>
-                      );
-                    })}
+                      ))}
+                    </div>
+                    {modalCategory === "Paintings" && (
+                      <p className="mt-10 text-center font-serif text-base italic text-[#F4E0A5]/85">
+                        More paintings coming soon...
+                      </p>
+                    )}
                   </div>
                 );
               })()}
