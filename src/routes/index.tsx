@@ -507,25 +507,27 @@ function Home() {
                           }
                         }}
                       >
-                        <img
-                          src={c.img}
-                          alt={c.name}
-                          loading="lazy"
-                          className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-forest/85 via-forest/25 to-transparent" />
-                        {!isComingSoon && (
+                        {!isComingSoon ? (
                           <>
+                            <img
+                              src={c.img}
+                              alt={c.name}
+                              loading="lazy"
+                              className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-forest/85 via-forest/25 to-transparent" />
                             <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(128,0,32,0.35),transparent_55%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                             <div className="absolute left-5 top-5 rounded-full border border-cream/25 bg-forest/50 px-3 py-1 text-[10px] uppercase tracking-widest text-cream/85 backdrop-blur">
                               {c.subcategory}
                             </div>
                             <Flower2 className="absolute bottom-5 right-5 size-8 text-cream/60 transition-transform duration-500 group-hover:rotate-12" strokeWidth={1.25} />
                           </>
-                        )}
-                        {isComingSoon && (
-                          <div className="absolute left-5 top-5 rounded-full border border-[#F4E0A5]/25 bg-burgundy px-3 py-1 text-[10px] uppercase tracking-widest text-cream backdrop-blur">
-                            Coming Soon
+                        ) : (
+                          <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center bg-forest/80">
+                            <Palette className="size-10 text-[#F4E0A5]/80 animate-pulse" strokeWidth={1.25} />
+                            <span className="mt-4 text-[10px] font-semibold uppercase tracking-widest text-[#F4E0A5]">
+                              Coming Soon
+                            </span>
                           </div>
                         )}
                       </div>
@@ -849,16 +851,22 @@ function Home() {
                               }
                             }}
                           >
-                            <img
-                              src={c.img}
-                              alt={c.name}
-                              loading="lazy"
-                              className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-forest/80 via-transparent to-transparent" />
-                            {isComingSoon && (
-                              <div className="absolute left-5 top-5 rounded-full border border-[#F4E0A5]/25 bg-burgundy px-3 py-1 text-[10px] uppercase tracking-widest text-cream backdrop-blur">
-                                Coming Soon
+                            {!isComingSoon ? (
+                              <>
+                                <img
+                                  src={c.img}
+                                  alt={c.name}
+                                  loading="lazy"
+                                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-forest/80 via-transparent to-transparent" />
+                              </>
+                            ) : (
+                              <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-center bg-forest/80">
+                                <Palette className="size-8 text-[#F4E0A5]/80" strokeWidth={1.25} />
+                                <span className="mt-3 text-[10px] font-semibold uppercase tracking-widest text-[#F4E0A5]">
+                                  Coming Soon
+                                </span>
                               </div>
                             )}
                           </div>
