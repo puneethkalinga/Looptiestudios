@@ -494,7 +494,7 @@ function Home() {
                       href="#contact"
                       className="mt-8 inline-flex items-center gap-1.5 rounded-full bg-burgundy px-8 py-3 text-xs font-semibold uppercase tracking-widest text-cream hover:bg-burgundy/90 transition-colors shadow-lg"
                     >
-                      Enquire for Commissions <ArrowUpRight className="size-3.5" />
+                      Enquire for Requests <ArrowUpRight className="size-3.5" />
                     </a>
                   </div>
                 ) : (
@@ -842,7 +842,7 @@ function Home() {
                           onClick={() => setIsModalOpen(false)}
                           className="mt-6 inline-flex items-center gap-1.5 rounded-full bg-burgundy px-6 py-2.5 text-[11px] font-semibold uppercase tracking-widest text-cream hover:bg-burgundy/90 transition-colors shadow-lg"
                         >
-                          Enquire for Commissions <ArrowUpRight className="size-3" />
+                          Enquire for Requests <ArrowUpRight className="size-3" />
                         </a>
                       </div>
                     ) : (
