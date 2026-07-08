@@ -85,19 +85,13 @@ const COLLECTIONS_RAW: { name: string; category: "Crochets" | "Paintings"; subca
   { name: "Bluebird, Petite", category: "Crochets", subcategory: "Crochet Toys", desc: "A pocket-sized bluebird finished on a hanging cord." },
   { name: "Kitty Fingertip Charm", category: "Crochets", subcategory: "Crochet Toys", desc: "A tiny fingertip-sized cream kitten with a red bow." },
   // Paintings
-  { name: "A Forest Symphony", category: "Paintings", subcategory: "Paintings", desc: "Original textured acrylic canvas art showing details of leaves and natural textures." },
-  { name: "Wildflowers & Meadows", category: "Paintings", subcategory: "Paintings", desc: "Vibrant and structured palette knife floral paintings done on premium paper." },
   { name: "Divine Melodies of Krishna", category: "Paintings", subcategory: "Paintings", desc: "A vibrant, hand-painted traditional Indian canvas painting depicting Lord Krishna playing the flute under a sacred tree, surrounded by Gopikas." }
 ];
 
 const COLLECTIONS: { name: string; category: "Crochets" | "Paintings"; subcategory: string; desc: string; tint: string; img: string }[] = COLLECTIONS_RAW.map((p, i) => {
   const isPainting = p.category === "Paintings";
   const imgUrl = isPainting 
-    ? (p.name === "A Forest Symphony" 
-        ? "/images/gallery/paintings.jpg" 
-        : p.name === "Wildflowers & Meadows" 
-          ? "/images/gallery/handmade-crafts.jpg" 
-          : "/images/gallery/krishna.jpg")
+    ? "/images/gallery/krishna.jpg"
     : `/images/products/product-${String(i + 1).padStart(2, "0")}.jpg`;
   return { ...p, tint: TINTS[i % TINTS.length], img: imgUrl };
 });
