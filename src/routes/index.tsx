@@ -84,10 +84,21 @@ const COLLECTIONS_RAW: { name: string; category: "Crochets" | "Paintings"; subca
   { name: "Daisy Basket Bouquet", category: "Crochets", subcategory: "Handloom Decor", desc: "A basket bouquet of pink, cream and yellow daisies." },
   { name: "Bluebird, Petite", category: "Crochets", subcategory: "Crochet Toys", desc: "A pocket-sized bluebird finished on a hanging cord." },
   { name: "Kitty Fingertip Charm", category: "Crochets", subcategory: "Crochet Toys", desc: "A tiny fingertip-sized cream kitten with a red bow." },
+  // Paintings
+  { name: "A Forest Symphony", category: "Paintings", subcategory: "Paintings", desc: "Original textured acrylic canvas art showing details of leaves and natural textures." },
+  { name: "Wildflowers & Meadows", category: "Paintings", subcategory: "Paintings", desc: "Vibrant and structured palette knife floral paintings done on premium paper." },
+  { name: "Divine Melodies of Krishna", category: "Paintings", subcategory: "Paintings", desc: "A vibrant, hand-painted traditional Indian canvas painting depicting Lord Krishna playing the flute under a sacred tree, surrounded by Gopikas." }
 ];
 
 const COLLECTIONS: { name: string; category: "Crochets" | "Paintings"; subcategory: string; desc: string; tint: string; img: string }[] = COLLECTIONS_RAW.map((p, i) => {
-  const imgUrl = `/images/products/product-${String(i + 1).padStart(2, "0")}.jpg`;
+  const isPainting = p.category === "Paintings";
+  const imgUrl = isPainting 
+    ? (p.name === "A Forest Symphony" 
+        ? "/images/gallery/paintings.jpg" 
+        : p.name === "Wildflowers & Meadows" 
+          ? "/images/gallery/handmade-crafts.jpg" 
+          : "/images/gallery/krishna.jpg")
+    : `/images/products/product-${String(i + 1).padStart(2, "0")}.jpg`;
   return { ...p, tint: TINTS[i % TINTS.length], img: imgUrl };
 });
 
@@ -480,64 +491,45 @@ function Home() {
 
             return (
               <div className="mt-10 animate-in fade-in duration-300">
-                {inlineCategory === "Paintings" ? (
-                  <div className="flex flex-col items-center justify-center py-20 px-6 text-center border border-cream/10 rounded-[2.5rem] bg-cream/5 min-h-[350px] max-w-4xl mx-auto">
-                    <div className="flex size-20 items-center justify-center rounded-full border border-cream/15 bg-cream/5 text-[#F4E0A5]/80 animate-pulse">
-                      <Palette className="size-10" strokeWidth={1.25} />
-                    </div>
-                    <h3 className="mt-8 font-serif text-3xl md:text-4xl text-[#F4E0A5]">Paintings Coming Soon</h3>
-                    <p className="mt-4 max-w-md text-sm leading-relaxed text-cream/70">
-                      We are quietly curating our first collection of original canvas paintings. 
-                      Commission requests and custom orders are currently open.
-                    </p>
-                    <a
-                      href="#contact"
-                      className="mt-8 inline-flex items-center gap-1.5 rounded-full bg-burgundy px-8 py-3 text-xs font-semibold uppercase tracking-widest text-cream hover:bg-burgundy/90 transition-colors shadow-lg"
+                <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                  {filteredItems.map((c) => (
+                    <div
+                      key={c.name}
+                      className="group relative overflow-hidden rounded-3xl border border-cream/15 bg-cream/5 transition-transform duration-500 hover:-translate-y-1"
                     >
-                      Enquire for Requests <ArrowUpRight className="size-3.5" />
-                    </a>
-                  </div>
-                ) : (
-                  <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                    {filteredItems.map((c) => (
-                      <div
-                        key={c.name}
-                        className="group relative overflow-hidden rounded-3xl border border-cream/15 bg-cream/5 transition-transform duration-500 hover:-translate-y-1"
+                      <div 
+                        className="relative aspect-[4/5] w-full overflow-hidden bg-gradient-to-br from-forest to-burgundy/30 cursor-pointer"
+                        onClick={() => {
+                          setLightboxItems(filteredItems);
+                          setLightboxIndex(filteredItems.findIndex(item => item.name === c.name));
+                        }}
                       >
-                        <div 
-                          className="relative aspect-[4/5] w-full overflow-hidden bg-gradient-to-br from-forest to-burgundy/30 cursor-pointer"
-                          onClick={() => {
-                            setLightboxItems(filteredItems);
-                            setLightboxIndex(filteredItems.findIndex(item => item.name === c.name));
-                          }}
-                        >
-                          <img
-                            src={c.img}
-                            alt={c.name}
-                            loading="lazy"
-                            className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-forest/85 via-forest/25 to-transparent" />
-                          <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(128,0,32,0.35),transparent_55%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                          <div className="absolute left-5 top-5 rounded-full border border-cream/25 bg-forest/50 px-3 py-1 text-[10px] uppercase tracking-widest text-cream/85 backdrop-blur">
-                            {c.subcategory}
-                          </div>
-                          <Flower2 className="absolute bottom-5 right-5 size-8 text-cream/60 transition-transform duration-500 group-hover:rotate-12" strokeWidth={1.25} />
+                        <img
+                          src={c.img}
+                          alt={c.name}
+                          loading="lazy"
+                          className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-forest/85 via-forest/25 to-transparent" />
+                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(128,0,32,0.35),transparent_55%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                        <div className="absolute left-5 top-5 rounded-full border border-cream/25 bg-forest/50 px-3 py-1 text-[10px] uppercase tracking-widest text-cream/85 backdrop-blur">
+                          {c.subcategory}
                         </div>
-                        <div className="p-6">
-                          <h3 className="font-serif text-xl leading-snug">{c.name}</h3>
-                          <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-cream/70">{c.desc}</p>
-                          <a
-                            href="#contact"
-                            className="mt-5 inline-flex items-center gap-1.5 text-[11px] uppercase tracking-widest text-cream/90 transition group-hover:gap-2.5"
-                          >
-                            View Collection <ArrowUpRight className="size-3.5" />
-                          </a>
-                        </div>
+                        <Flower2 className="absolute bottom-5 right-5 size-8 text-cream/60 transition-transform duration-500 group-hover:rotate-12" strokeWidth={1.25} />
                       </div>
-                    ))}
-                  </div>
-                )}
+                      <div className="p-6">
+                        <h3 className="font-serif text-xl leading-snug">{c.name}</h3>
+                        <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-cream/70">{c.desc}</p>
+                        <a
+                          href="#contact"
+                          className="mt-5 inline-flex items-center gap-1.5 text-[11px] uppercase tracking-widest text-cream/90 transition group-hover:gap-2.5"
+                        >
+                          View Collection <ArrowUpRight className="size-3.5" />
+                        </a>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             );
           })()}
@@ -827,62 +819,42 @@ function Home() {
 
                 return (
                   <div className="animate-in fade-in duration-300">
-                    {modalCategory === "Paintings" ? (
-                      <div className="flex flex-col items-center justify-center py-16 px-6 text-center border border-cream/10 rounded-[2.5rem] bg-cream/5 min-h-[300px]">
-                        <div className="flex size-16 items-center justify-center rounded-full border border-cream/15 bg-cream/5 text-[#F4E0A5]/80 animate-pulse">
-                          <Palette className="size-8" strokeWidth={1.25} />
-                        </div>
-                        <h3 className="mt-6 font-serif text-2xl md:text-3xl text-[#F4E0A5]">Paintings Coming Soon</h3>
-                        <p className="mt-3 max-w-md text-xs leading-relaxed text-cream/70">
-                          We are quietly curating our first collection of original canvas paintings. 
-                          Commission requests and custom orders are currently open.
-                        </p>
-                        <a
-                          href="#contact"
-                          onClick={() => setIsModalOpen(false)}
-                          className="mt-6 inline-flex items-center gap-1.5 rounded-full bg-burgundy px-6 py-2.5 text-[11px] font-semibold uppercase tracking-widest text-cream hover:bg-burgundy/90 transition-colors shadow-lg"
+                    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                      {filteredItems.map((c) => (
+                        <div
+                          key={c.name}
+                          className="group relative overflow-hidden rounded-2xl border border-cream/10 bg-cream/5 transition-all duration-300 hover:border-cream/20"
                         >
-                          Enquire for Requests <ArrowUpRight className="size-3" />
-                        </a>
-                      </div>
-                    ) : (
-                      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                        {filteredItems.map((c) => (
-                          <div
-                            key={c.name}
-                            className="group relative overflow-hidden rounded-2xl border border-cream/10 bg-cream/5 transition-all duration-300 hover:border-cream/20"
+                          <div 
+                            className="relative aspect-[4/5] w-full overflow-hidden bg-gradient-to-br from-forest to-burgundy/30 cursor-pointer"
+                            onClick={() => {
+                              setLightboxItems(filteredItems);
+                              setLightboxIndex(filteredItems.findIndex(item => item.name === c.name));
+                            }}
                           >
-                            <div 
-                              className="relative aspect-[4/5] w-full overflow-hidden bg-gradient-to-br from-forest to-burgundy/30 cursor-pointer"
-                              onClick={() => {
-                                setLightboxItems(filteredItems);
-                                setLightboxIndex(filteredItems.findIndex(item => item.name === c.name));
-                              }}
-                            >
-                              <img
-                                src={c.img}
-                                alt={c.name}
-                                loading="lazy"
-                                className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                              />
-                              <div className="absolute inset-0 bg-gradient-to-t from-forest/80 via-transparent to-transparent" />
-                            </div>
-                            <div className="p-5">
-                              <h3 className="font-serif text-lg leading-snug">{c.name}</h3>
-                              <p className="mt-1.5 line-clamp-2 text-xs leading-relaxed text-cream/70">{c.desc}</p>
-                              <a
-                                href="https://wa.me/917842361772"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="mt-4 inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-widest text-[#F4E0A5] hover:text-cream transition-colors"
-                              >
-                                Enquire on WhatsApp <ArrowUpRight className="size-3" />
-                              </a>
-                            </div>
+                            <img
+                              src={c.img}
+                              alt={c.name}
+                              loading="lazy"
+                              className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-forest/80 via-transparent to-transparent" />
                           </div>
-                        ))}
-                      </div>
-                    )}
+                          <div className="p-5">
+                            <h3 className="font-serif text-lg leading-snug">{c.name}</h3>
+                            <p className="mt-1.5 line-clamp-2 text-xs leading-relaxed text-cream/70">{c.desc}</p>
+                            <a
+                              href="https://wa.me/917842361772"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="mt-4 inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-widest text-[#F4E0A5] hover:text-cream transition-colors"
+                            >
+                              Enquire on WhatsApp <ArrowUpRight className="size-3" />
+                            </a>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 );
               })()}
